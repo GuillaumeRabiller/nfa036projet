@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Formulaire mise à jour utilisateur</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}"/>
+    <link rel="stylesheet"
+          href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <link rel="stylesheet"
+          href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script
+            src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+</head>
+<body>
+<div class="container">
+    <h1>Mise à jour d'un Utilisateur</h1>
+
+    <form th:action="@{/updateUtil}"
+          th:object="${aUser}" method="POST">
+        <div class="form-group">
+            <input class="form-control" type="hidden" th:field="*{id}" />
+            <span class="error" th:if="${#fields.hasErrors('id')}">Erreur sur l'id</span>
+            <br/>
+        </div>
+        <div class="form-group">
+            <label>Nom de famille</label>
+            <input class="form-control" type="text" th:field="*{nom}" />
+            <span class="error" th:if="${#fields.hasErrors('nom')}">Erreur sur le nom</span>
+            <br/>
+        </div>
+        <div class="form-group">
+            <label>Prénom</label>
+            <input type="text" th:field="*{prenom}" />
+            <span class="error" th:if="${#fields.hasErrors('prenom')}" th:errors="*{prenom}"></span>
+            <br/>
+        </div>
+        <div class="form-group">
+            <label>email</label>
+            <input type="text" th:field="*{email}" />
+            <span class="error" th:if="${#fields.hasErrors('email')}">Erreur sur le mail</span>
+            <br/>
+        </div>
+        <div class="form-group">
+            <label>login</label>
+            <input type="text"  th:field="*{login}" />
+            <span class="error" th:if="${#fields.hasErrors('login')}">Erreur sur le login</span>
+            <br/>
+        </div>
+        <div class="form-group">
+            <label>password</label>
+            <input type="text" th:field="*{password}" />
+            <span class="error" th:if="${#fields.hasErrors('password')}">Erreur sur le mdp</span>
+            <br/>
+        </div>
+        <div class="form-group">
+            <label>role</label>
+            <input type="text" th:field="*{role}" />
+            <span class="error" th:if="${#fields.hasErrors('role')}">Erreur sur le role</span>
+            <br/>
+        </div>
+        <input type="submit" value="Update utilisateur" />
+        <input type="reset" value="Reset" />
+    </form>
+</div>
+
+</body>
+</html>

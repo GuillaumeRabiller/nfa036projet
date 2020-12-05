@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Liste des utilisateurs en base de donnée</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}"/>
+</head>
+<body>
+    <h1>Liste des utilisateurs</h1>
+    <div>
+        <table border="1">
+            <tr>
+                <th>id</th>
+                <th>Nom de famille</th>
+                <th>Prénom</th>
+                <th>email</th>
+                <th>login</th>
+                <th>password</th>
+                <th>role</th>
+                <th>Editer</th>
+                <th>Supprimer</th>
+            </tr>
+            <tr th:each="utilisateur:${userList}">
+                <td th:text="${utilisateur.id}"></td>
+                <td th:text="${utilisateur.nom}"></td>
+                <td th:text="${utilisateur.prenom}"></td>
+                <td th:text="${utilisateur.email}"></td>
+                <td th:text="${utilisateur.login}"></td>
+                <td th:text="${utilisateur.password}"></td>
+                <td th:text="${utilisateur.role}"></td>
+                <td><a th:href="@{/updateUtil/{id}(id=${utilisateur.id})}">Edit</a></td>
+                <td><a th:href="@{/deleteUtil/{id}(id=${utilisateur.id})}">Delete</a></td>
+            </tr>
+        </table>
+    </div>
+
+    <a th:href="@{/createUtil}">Ajout d'un utilisateur</a>
+
+
+</body>
+</html>
