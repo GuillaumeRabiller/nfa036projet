@@ -2,6 +2,7 @@ package com.cnam.nfa036projet.model;
 
 import javax.persistence.*;
 import javax.validation.constraints.Size;
+import java.util.List;
 
 @Entity
 public class Categorie {
@@ -11,11 +12,16 @@ public class Categorie {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "ID_CATEGORIE")
     private long id;
 
     @Size(min=2, max=64)
-    @Column(nullable = false)
+    @Column(nullable = false, name = "NOM_CATEGORIE")
     private String nomCategorie ;
+
+    @OneToMany
+    @JoinColumn(name="ID_PRODUIT")
+    private List<Produit> produits ;
 
 
     //CONSTRUCTEUR
@@ -47,6 +53,13 @@ public class Categorie {
         this.nomCategorie = nomCategorie;
     }
 
+    public List<Produit> getProduits() {
+        return produits;
+    }
+
+    public void setProduit(List<Produit> produits) {
+        this.produits = produits;
+    }
 
     //REDEFINITION TOSTRING
 
