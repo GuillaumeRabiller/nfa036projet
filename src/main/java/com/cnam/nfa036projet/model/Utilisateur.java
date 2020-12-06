@@ -15,28 +15,29 @@ public class Utilisateur {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "ID_UTILISATEUR")
     private long id;
 
-    @Column(nullable = false)
+    @Column(nullable = false, name = "NOM_UTILISATEUR")
     @Size(min=2, max=30, message="Taille minimum de {min} et {max} au maximum")
     private String nom;
 
-    @Column(nullable = false)
+    @Column(nullable = false, name = "PRENOM_UTILISATEUR")
     @Size(min=2, max=30, message="Taille minimum de {min} et {max} au maximum")
     private String prenom;
 
-    @Column(unique = true)
+    @Column(unique = true, name = "EMAIL_UTILISATEUR")
     @Email
     private String email;
 
-    @Column(nullable = false)
+    @Column(nullable = false, name = "LOGIN_UTILISATEUR")
     @Size(min=6, max=15)
     private String login ;
 
-    @Column(nullable = false)
+    @Column(nullable = false, name = "PASSWORD_UTILISATEUR")
     private String password ;
 
-    @Column(nullable = true)
+    @Enumerated(EnumType.STRING)
     private RoleUtilisateur role ;
 
 
