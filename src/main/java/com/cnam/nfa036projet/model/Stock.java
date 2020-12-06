@@ -10,9 +10,10 @@ public class Stock {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "ID_STOCK")
     private long id ;
 
-    @Column(nullable = false)
+    @Column(nullable = false, name = "NOM_STOCK")
     @Size(min = 2, max = 36)
     private String nomStock ;
 
