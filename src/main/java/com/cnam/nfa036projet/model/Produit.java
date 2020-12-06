@@ -29,10 +29,11 @@ public class Produit {
     private LocalDate dateCreation ;
 
     @ManyToOne
-    @JoinColumn(name = "NOM_CATEGORIE")
+    @JoinColumn(name = "ID_CATEGORIE")
     private Categorie categorie ;
 
-    @OneToOne
+    @ManyToOne
+    @JoinColumn (name = "ID_UTILISATEUR")
     private Utilisateur utilisateur ;
 
 
