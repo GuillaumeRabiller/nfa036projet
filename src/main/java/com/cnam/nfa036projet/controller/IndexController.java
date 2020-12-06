@@ -70,7 +70,7 @@ public class IndexController {
     public String readUtilisateur(Model model) {
         List<Utilisateur> userList = utilisateurRepository.findAll();
         model.addAttribute("userList", userList);
-        return "readUtil";
+        return "/Utilisateur/readUtil";
     }
 
     /**
@@ -85,7 +85,7 @@ public class IndexController {
     public String createUtilisateur(Model model) {
         Utilisateur aUser = new Utilisateur();
         model.addAttribute("aUser", aUser);
-        return "createUtil";
+        return "/Utilisateur/createUtil";
     }
 
     /**
@@ -100,12 +100,12 @@ public class IndexController {
     public String saveUtilisateur(@ModelAttribute("aUser") Utilisateur aUser, BindingResult bindingResult, Model model) {
         if (bindingResult.hasErrors()) {
             model.addAttribute("aUser", aUser);
-            return "createUtil";
+            return "/Utilisateur/createUtil";
         } else {
             utilisateurRepository.save(aUser);
             List<Utilisateur> userList = utilisateurRepository.findAll();
             model.addAttribute("userList", userList);
-            return "readUtil";
+            return "/Utilisateur/readUtil";
         }
     }
 
@@ -122,17 +122,17 @@ public class IndexController {
         Utilisateur aUser = utilisateurRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Invalid user id:" + id));
 
         model.addAttribute("aUser", aUser);
-        return "updateUtil";
+        return "/Utilisateur/updateUtil";
     }
 
     @PostMapping("/updateUtil")
     public String updateUtilisateur( @Valid Utilisateur aUser, BindingResult result, Model model) {
         if (result.hasErrors()) {
-            return "updateUtil";
+            return "/Utilisateur/updateUtil";
         }
         utilisateurRepository.save(aUser);
         model.addAttribute("userList", utilisateurRepository.findAll());
-        return "readUtil";
+        return "/Utilisateur/readUtil";
     }
 
     /**
@@ -148,7 +148,7 @@ public class IndexController {
         Utilisateur aUser = utilisateurRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Invalid user Id:" + id));
         utilisateurRepository.delete(aUser);
         model.addAttribute("userList", utilisateurRepository.findAll());
-        return "readUtil";
+        return "/Utilisateur/readUtil";
     }
 
 }
