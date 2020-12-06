@@ -14,20 +14,22 @@ public class Produit {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name="ID_PRODUIT")
     private long id ;
 
-    @Column(nullable = false)
+    @Column(nullable = false, name="NOM_PRODUIT")
     @Size(min=2, max=64)
     private String nomProduit ;
 
-    @Column(nullable = false)
+    @Column(nullable = false, name="DUREE_CONSERVATION")
     private int dureeConservation ;
 
-    @Column(nullable = false)
+    @Column(nullable = false, name="DATE_CREATION")
     @DateTimeFormat(pattern = "YYYY-MM-dd")
     private LocalDate dateCreation ;
 
-    @OneToOne
+    @ManyToOne
+    @JoinColumn(name = "NOM_CATEGORIE")
     private Categorie categorie ;
 
     @OneToOne
