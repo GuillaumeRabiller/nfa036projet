@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Liste des Produits</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}"/>
+</head>
+<body>
+    <h1>Liste des produits :</h1>
+    <div>
+        <table border="1">
+            <tr>
+                <th>id</th>
+                <th>Nom du Produit</th>
+                <th>Durée de conservation/th>
+                <th>Date de création</th>
+                <th>Responsable de la création/th>
+                <th>Catégorie/th>
+                <th>Editer</th>
+                <th>Supprimer</th>
+            </tr>
+            <tr th:each="produit:${produitList}">
+                <td th:text="${produit.id}"></td>
+                <td th:text="${produit.nomProduit}"></td>
+                <td th:text="${produit.dureeConservation}"></td>
+                <td th:text="${produit.dateCreation}"></td>
+                <td th:text="${produit.utilisateur}"></td>
+                <td th:text="${produit.categorie}"></td>
+                <td><a th:href="@{/updateProduit/{id}(id=${produit.id})}">Edit</a></td>
+                <td><a th:href="@{/deleteProduit/{id}(id=${produit.id})}">Delete</a></td>
+            </tr>
+        </table>
+    </div>
+
+    <a th:href="@{/createProduit}">Création d'un nouveau produit</a>
+
+
+</body>
+</html>

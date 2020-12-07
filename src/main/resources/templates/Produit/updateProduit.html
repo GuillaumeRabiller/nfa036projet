@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Formulaire mise à jour produit</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}"/>
+    <link rel="stylesheet"
+          href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <link rel="stylesheet"
+          href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script
+            src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+</head>
+<body>
+<div class="container">
+    <h1>Mise à jour d'un Produit</h1>
+
+    <form th:action="@{/updateProduit}"
+          th:object="${aProduit}" method="POST">
+        <div class="form-group">
+            <input class="form-control" type="hidden" th:field="*{id}" />
+            <br/>
+        </div>
+        <div class="form-group">
+            <label>Nom du produit</label>
+            <input class="form-control" type="text" th:field="*{nomProduit}" />
+            <span class="error" th:if="${#fields.hasErrors('nomProduit')}">Erreur sur le nom</span>
+            <br/>
+        </div>
+        <div class="form-group">
+            <label>Durée de conservation</label>
+            <input type="text" th:field="*{dureeConservation}" />
+            <span class="error" th:if="${#fields.hasErrors('dureeConservation')}" th:errors="*{dureeConservation}"></span>
+            <br/>
+        </div>
+        <div class="form-group">
+            <label>Date Creation</label>
+            <input type="hidden" th:field="*{dateCreation}" />
+            <br/>
+        </div>
+        <div class="form-group">
+            <label>Catégorie</label>
+            <input type="text"  th:field="*{categorie}" />
+            <span class="error" th:if="${#fields.hasErrors('categorie')}">Erreur sur la catégorie</span>
+            <br/>
+        </div>
+        <div class="form-group">
+            <label>Utilisateur</label>
+            <input type="hidden" th:field="*{utilisateur}" />
+            <br/>
+        </div>
+
+        <input type="submit" value="Update produit" />
+        <input type="reset" value="Reset" />
+    </form>
+</div>
+
+</body>
+</html>
