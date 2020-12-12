@@ -60,6 +60,11 @@
             <span class="error" th:if="${#fields.hasErrors('role')}">Erreur sur le role</span>
             <br/>
         </div>
+        <div class="form-group">
+            <input class="form-control" type="hidden" th:field="*{produits}" />
+            <span class="error" th:if="${#fields.hasErrors('produits')}">Erreur sur les produits</span>
+            <br/>
+        </div>
         <input type="submit" value="Update utilisateur" />
         <input type="reset" value="Reset" />
     </form>

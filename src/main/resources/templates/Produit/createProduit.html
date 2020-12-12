@@ -17,6 +17,12 @@
    <div class="container">
         <h1>Création d'un Produit</h1>
 
+       <div th:object="${utilisateur}">
+            Utilisateur qui créé le produit :
+           <span> th:text="${utilisateur.nom}" </span>
+           <br/>
+       </div>
+
         <form th:action="@{/saveProduit}"
               th:object="${aProduit}" method="POST">
             <div class="form-group">

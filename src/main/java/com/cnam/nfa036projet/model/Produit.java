@@ -40,10 +40,9 @@ public class Produit {
     //CONSTRUCTEURS
 
     public Produit() {
-        super();
     }
 
-    public Produit(@Size(min = 2, max = 64) String nomProduit, int dureeConservation, LocalDate dateCreation, Categorie categorie, Utilisateur utilisateur) {
+    public Produit(@Size(min = 2, max = 64) String nomProduit, int dureeConservation, Categorie categorie, Utilisateur utilisateur) {
         this.nomProduit = nomProduit;
         this.dureeConservation = dureeConservation;
         this.dateCreation = LocalDate.now() ;
