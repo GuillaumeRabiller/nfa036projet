@@ -1,8 +1,10 @@
 package com.cnam.nfa036projet.controller;
 
 import com.cnam.nfa036projet.model.Produit;
+import com.cnam.nfa036projet.model.Utilisateur;
 import com.cnam.nfa036projet.repository.ProduitRepository;
 
+import com.cnam.nfa036projet.repository.UtilisateurRepository;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -11,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 public class ProduitController {
@@ -18,6 +21,10 @@ public class ProduitController {
     //Création d'un ProduitRepository
 
     private ProduitRepository produitRepository ;
+
+    //Création d'un utilisateurRepository (pour forcer un utilisateur à la création d'un produit)
+
+    private UtilisateurRepository utilisateurRepository ;
 
     /**
      * LISTE DES PRODUITS EN BASE DE DONNEE
@@ -46,6 +53,8 @@ public class ProduitController {
     public String createProduit(Model model) {
         Produit aProduit = new Produit();
         model.addAttribute("aProduit", aProduit);
+        //envoi des infos Utilisateur 1 ADMIN (valeur forcée sur lui pour le moment)
+        model.addAttribute("utilisateur", utilisateurRepository.findById((long)1));
         return "/Produit/createProduit";
     }
 
@@ -64,6 +73,11 @@ public class ProduitController {
             return "/Produit/createProduit";
         } else {
             aProduit.setDateCreation(LocalDate.now());
+
+            //ajout en dur de l'utilisateur qui créé le produit
+            Utilisateur utilisateur = utilisateurRepository.getOne((long)1);
+            aProduit.setUtilisateur(utilisateur);
+
             produitRepository.save(aProduit);
             List<Produit> produitList = produitRepository.findAll();
             model.addAttribute("produitList", produitList);
