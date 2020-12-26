@@ -17,17 +17,12 @@
    <div class="container">
         <h1>Création d'un Produit</h1>
 
-       <div th:object="${utilisateur}">
-            Utilisateur qui créé le produit :
-           <span> th:text="${utilisateur.nom}" </span>
-           <br/>
-       </div>
 
         <form th:action="@{/saveProduit}"
               th:object="${aProduit}" method="POST">
             <div class="form-group">
                 <label>Nom du produit</label>
-                <input class="form-control" type="text" th:field="*{nomProduit}" />
+                <input type="text" th:field="*{nomProduit}" />
                 <span class="error" th:if="${#fields.hasErrors('nomProduit')}">Erreur sur le nom</span>
                 <br/>
             </div>
@@ -39,8 +34,11 @@
             </div>
             <div class="form-group">
                 <label>Catégorie</label>
-                <input type="text" th:field="*{categorie}" />
-                <span class="error" th:if="${#fields.hasErrors('categorie')}">Erreur sur la catégorie</span>
+                <select th:field="*{categorieId}">
+                    <option th:each="categorieList : ${categorieList}"
+                                th:value="${categorieList.id}"
+                                th:text="${categorieList.nomCategorie}"/>
+                </select>
                 <br/>
             </div>
                 <input type="submit" value="Submit" />

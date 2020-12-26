@@ -20,13 +20,13 @@
     <form th:action="@{/updateUtil}"
           th:object="${aUser}" method="POST">
         <div class="form-group">
-            <input class="form-control" type="hidden" th:field="*{id}" />
+            <input type="hidden" th:field="*{id}" />
             <span class="error" th:if="${#fields.hasErrors('id')}">Erreur sur l'id</span>
             <br/>
         </div>
         <div class="form-group">
             <label>Nom de famille</label>
-            <input class="form-control" type="text" th:field="*{nom}" />
+            <input type="text" th:field="*{nom}" />
             <span class="error" th:if="${#fields.hasErrors('nom')}">Erreur sur le nom</span>
             <br/>
         </div>
@@ -58,11 +58,6 @@
             <label>role</label>
             <input type="text" th:field="*{role}" />
             <span class="error" th:if="${#fields.hasErrors('role')}">Erreur sur le role</span>
-            <br/>
-        </div>
-        <div class="form-group">
-            <input class="form-control" type="hidden" th:field="*{produits}" />
-            <span class="error" th:if="${#fields.hasErrors('produits')}">Erreur sur les produits</span>
             <br/>
         </div>
         <input type="submit" value="Update utilisateur" />

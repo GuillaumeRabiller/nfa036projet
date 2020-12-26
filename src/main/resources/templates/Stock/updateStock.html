@@ -2,7 +2,7 @@
 <html lang="fr" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Formulaire mise à jour produit</title>
+    <title>Formulaire mise à jour stock</title>
     <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}"/>
     <link rel="stylesheet"
           href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
@@ -15,39 +15,32 @@
 </head>
 <body>
 <div class="container">
-    <h1>Mise à jour d'un Produit</h1>
+    <h1>Mise à jour de :</h1>
 
-    <form th:action="@{/updateProduit}"
-          th:object="${aProduit}" method="POST">
+    <form th:action="@{/updateStock}"
+          th:object="${aStock}" method="POST">
         <div class="form-group">
             <input type="hidden" th:field="*{id}" />
             <span class="error" th:if="${#fields.hasErrors('id')}">Erreur sur l'id</span>
             <br/>
         </div>
         <div class="form-group">
-            <label>Nom du produit</label>
-            <input type="text" th:field="*{nomProduit}" />
+            <label th:text="*{nomProduit}"></label>
+            <input type="hidden" th:field="*{nomProduit}" />
             <span class="error" th:if="${#fields.hasErrors('nomProduit')}">Erreur sur le nom</span>
             <br/>
         </div>
         <div class="form-group">
-            <label>Durée de conservation</label>
-            <input type="number" th:field="*{dureeConservation}" />
-            <span class="error" th:if="${#fields.hasErrors('dureeConservation')}" th:errors="*{dureeConservation}"></span>
-            <br/>
-        </div>
-        <div class="form-group">
-            <label>Catégorie</label>
-            <select th:field="*{categorieId}">
-                <option th:each="categorieList : *{categories}"
-                        th:value="${categorieList.id}"
-                        th:selected="${categorieList.id eq lastselected}"
-                        th:text="${categorieList.nomCategorie}"/>
+            <label>Statut</label>
+            <select th:field="*{statut}">
+                <option th:value="'Retiré'">Produit contrôlé et retiré</option>
+                <option th:value="'Erreur'">Erreur sur le produit -> rebus</option>
+                <option th:value="'Consommé'">Produit consommé</option>
             </select>
             <br/>
         </div>
 
-        <input type="submit" value="Update produit" />
+        <input type="submit" value="Update Stock" />
         <input type="reset" value="Reset" />
     </form>
 </div>

@@ -1,10 +1,14 @@
 package com.cnam.nfa036projet.controller;
 
+import com.cnam.nfa036projet.form.UpdateProduitForm;
+import com.cnam.nfa036projet.model.Categorie;
 import com.cnam.nfa036projet.model.Produit;
 import com.cnam.nfa036projet.model.Utilisateur;
+import com.cnam.nfa036projet.repository.CategorieRepository;
 import com.cnam.nfa036projet.repository.ProduitRepository;
 
 import com.cnam.nfa036projet.repository.UtilisateurRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -12,26 +16,31 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.time.LocalDate;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Controller
 public class ProduitController {
 
     //Création d'un ProduitRepository
 
+    @Autowired
     private ProduitRepository produitRepository ;
 
     //Création d'un utilisateurRepository (pour forcer un utilisateur à la création d'un produit)
 
+    @Autowired
     private UtilisateurRepository utilisateurRepository ;
+
+    //Création d'un categorieRepository
+
+    @Autowired
+    private CategorieRepository categorieRepository ;
 
     /**
      * LISTE DES PRODUITS EN BASE DE DONNEE
      *
      * READ
      * <p>
-     * A TEST
      */
 
     @GetMapping("/readProduit")
@@ -53,8 +62,8 @@ public class ProduitController {
     public String createProduit(Model model) {
         Produit aProduit = new Produit();
         model.addAttribute("aProduit", aProduit);
-        //envoi des infos Utilisateur 1 ADMIN (valeur forcée sur lui pour le moment)
-        model.addAttribute("utilisateur", utilisateurRepository.findById((long)1));
+        List<Categorie> categorieList = categorieRepository.findAll() ;
+        model.addAttribute("categorieList", categorieList);
         return "/Produit/createProduit";
     }
 
@@ -74,12 +83,22 @@ public class ProduitController {
         } else {
             aProduit.setDateCreation(LocalDate.now());
 
-            //ajout en dur de l'utilisateur qui créé le produit
-            Utilisateur utilisateur = utilisateurRepository.getOne((long)1);
-            aProduit.setUtilisateur(utilisateur);
+            //ajout en dur de l'utilisateur qui créé le produit (pour le moment Utilisateur avec ID = 1)
+            Optional<Utilisateur> utilisateur = utilisateurRepository.findById((long)1);
+            utilisateur.ifPresent(user -> {
+                aProduit.setUtilisateur(user.getNom() + " " + user.getPrenom());
+            });
+
+            //Recupération de la categorie
+            Optional<Categorie> cat = categorieRepository.findById(Long.valueOf(aProduit.getCategorieId()));
+            cat.ifPresent(categorie -> {
+                categorie.addProduit(aProduit);
+            });
 
             produitRepository.save(aProduit);
+
             List<Produit> produitList = produitRepository.findAll();
+
             model.addAttribute("produitList", produitList);
             return "/Produit/readProduit";
         }
@@ -95,18 +114,30 @@ public class ProduitController {
 
     @GetMapping("/updateProduit/{id}")
     public String updateProduitFormulaire(@PathVariable("id") long id, Model model) {
-        Produit aProduit = produitRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Invalid produit id:" + id));
-
+        Produit produit = produitRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Invalid produit id:" + id));
+        List<Categorie> categorieList = categorieRepository.findAll() ;
+        UpdateProduitForm aProduit = new UpdateProduitForm(produit.getId(),produit.getNomProduit(), produit.getDureeConservation(),categorieList);
         model.addAttribute("aProduit", aProduit);
+        model.addAttribute("lastselected",produit.getCategorie().getId());
         return "/Produit/updateProduit";
     }
 
     @PostMapping("/updateProduit")
-    public String updateproduit(@Valid Produit aProduit, BindingResult result, Model model) {
+    public String updateProduit(@Valid UpdateProduitForm aProduit, BindingResult result, Model model) {
         if (result.hasErrors()) {
-            return "/produit/updateProduit";
+            model.addAttribute("produitList", produitRepository.findAll());
+            return "/Produit/readProduit";
         }
-        produitRepository.save(aProduit);
+        Produit produit = produitRepository.findById(aProduit.getId()).orElseThrow(() -> new IllegalArgumentException("Invalid produit id"));
+        //Recupération de la categorie
+        Optional<Categorie> cat = categorieRepository.findById(aProduit.getCategorieId());
+        cat.ifPresent(categorie -> {
+            produit.changeCategorie(categorie);
+        });
+        produit.setNomProduit(aProduit.getNomProduit());
+        produit.setDureeConservation(aProduit.getDureeConservation());
+        produitRepository.save(produit);
+
         model.addAttribute("produitList", produitRepository.findAll());
         return "/Produit/readProduit";
     }
@@ -122,6 +153,7 @@ public class ProduitController {
     @GetMapping("/deleteProduit/{id}")
     public String deleteProduit(@PathVariable("id") long id, Model model) {
         Produit aProduit = produitRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Invalid produit Id:" + id));
+        aProduit.getCategorie().deleteProduit(aProduit);
         produitRepository.delete(aProduit);
         model.addAttribute("produitList", produitRepository.findAll());
         return "/Produit/readProduit";

@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Etat du stock</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}"/>
+</head>
+<body>
+    <h1>Etat du stock :</h1>
+    <form th:action="@{/readHistoriqueStock}"
+          th:object="${dateStock}" method="POST">
+        <div class="form-group">
+            <label>Historique du Stock</label>
+            <input type="date" th:field="*{date}" />
+            <span class="error" th:if="${#fields.hasErrors('date')}" th:errors="*{date}"></span>
+            <br/>
+        </div>
+        <input type="submit" value="Submit" />
+    </form>
+    <div>
+        <table border="1">
+            <tr>
+                <th>id</th>
+                <th>Nom du Produit</th>
+                <th>Catégorie du produit</th>
+                <th>Date / heure d'entrée</th>
+                <th>DLC</th>
+                <th>Statut</th>
+                <th>MAJ</th>
+            </tr>
+            <tr th:each="stock:${stockList}">
+                <td th:text="${stock.id}"></td>
+                <td th:text="${stock.nomProduit}"></td>
+                <td th:text="${stock.categorie}"></td>
+                <td th:text="${stock.dateEntree}"></td>
+                <td th:text="${stock.dlc}"></td>
+                <td th:text="${stock.statut}"></td>
+                <td><a th:href="@{/updateStock/{id}(id=${stock.id})}">Edit</a></td>
+            </tr>
+        </table>
+    </div>
+
+    <a th:href="@{/index}">Retour à l'index</a>
+    <a th:href="@{/createStock}">Ajout d'un produit en stock</a>
+
+
+</body>
+</html>

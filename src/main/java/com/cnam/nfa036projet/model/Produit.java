@@ -5,6 +5,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 import javax.persistence.*;
 import javax.validation.constraints.Size;
 import java.time.LocalDate;
+import java.util.List;
 
 @Entity
 public class Produit {
@@ -32,22 +33,19 @@ public class Produit {
     @JoinColumn(name = "ID_CATEGORIE")
     private Categorie categorie ;
 
-    @ManyToOne
-    @JoinColumn (name = "ID_UTILISATEUR")
-    private Utilisateur utilisateur ;
+    @Transient
+    private String categorieId ;
+
+    @Column (name = "UTILISATEUR")
+    private String utilisateur ;
+
+    @OneToMany(mappedBy = "produit")
+    private List<Stock> stocks ;
 
 
     //CONSTRUCTEURS
 
     public Produit() {
-    }
-
-    public Produit(@Size(min = 2, max = 64) String nomProduit, int dureeConservation, Categorie categorie, Utilisateur utilisateur) {
-        this.nomProduit = nomProduit;
-        this.dureeConservation = dureeConservation;
-        this.dateCreation = LocalDate.now() ;
-        this.categorie = categorie;
-        this.utilisateur = utilisateur;
     }
 
 
@@ -89,13 +87,38 @@ public class Produit {
         this.categorie = categorie;
     }
 
-    public Utilisateur getUtilisateur() {
+    public String getUtilisateur() {
         return utilisateur;
     }
 
-    public void setUtilisateur(Utilisateur utilisateur) {
+    public void setUtilisateur(String utilisateur) {
         this.utilisateur = utilisateur;
     }
+
+    public String getCategorieId() {
+        return categorieId;
+    }
+
+    public void setCategorieId(String categorieId) {
+        this.categorieId = categorieId;
+    }
+
+    public List<Stock> getStocks() {
+        return stocks;
+    }
+
+    public void addStock(Stock stock) {
+        stock.setProduit(this);
+        stocks.add(stock);
+    }
+
+    //Méthodes
+
+    public void changeCategorie(Categorie newCategorie) {
+        this.getCategorie().deleteProduit(this);
+        newCategorie.addProduit(this);
+    }
+
 
     //REDEFINITION TOSTRING
 
@@ -107,7 +130,20 @@ public class Produit {
                 ", dureeConservation=" + dureeConservation +
                 ", dateCreation=" + dateCreation +
                 ", categorie=" + categorie.getNomCategorie() +
-                ", utilisateur=" + utilisateur.getNom() +
+                ", utilisateur=" + utilisateur +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Produit)) return false;
+        Produit produit = (Produit) o;
+        return id == produit.id && com.google.common.base.Objects.equal(nomProduit, produit.nomProduit) && com.google.common.base.Objects.equal(categorie, produit.categorie);
+    }
+
+    @Override
+    public int hashCode() {
+        return com.google.common.base.Objects.hashCode(id, nomProduit, categorie);
     }
 }

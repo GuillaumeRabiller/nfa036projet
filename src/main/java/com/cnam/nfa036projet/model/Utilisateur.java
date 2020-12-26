@@ -4,7 +4,6 @@ package com.cnam.nfa036projet.model;
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.Size;
-import java.util.List;
 
 
 @Entity
@@ -40,24 +39,10 @@ public class Utilisateur {
     @Enumerated(EnumType.STRING)
     private RoleUtilisateur role ;
 
-    @OneToMany
-    @JoinColumn(name="ID_PRODUIT")
-    private List<Produit> produits ;
-
-
     //CONSTRUCTEURS
 
     public Utilisateur() {
         super();
-    }
-
-    public Utilisateur(String nom, String prenom, String email, String login, RoleUtilisateur role, List<Produit> produits) {
-        this.nom = nom;
-        this.prenom = prenom;
-        this.email = email;
-        this.login = login;
-        this.role = role;
-        this.produits = produits;
     }
 
 
@@ -106,14 +91,6 @@ public class Utilisateur {
     public RoleUtilisateur getRole() { return role; }
 
     public void setRole(RoleUtilisateur role) { this.role = role; }
-
-    public List<Produit> getProduits() {
-        return produits;
-    }
-
-    public void setProduit(List<Produit> produits) {
-        this.produits = produits;
-    }
 
 
     //REDEFINITION TOSTRING

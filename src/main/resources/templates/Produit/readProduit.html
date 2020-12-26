@@ -12,10 +12,10 @@
             <tr>
                 <th>id</th>
                 <th>Nom du Produit</th>
-                <th>Durée de conservation/th>
+                <th>Durée de conservation</th>
                 <th>Date de création</th>
-                <th>Responsable de la création/th>
-                <th>Catégorie/th>
+                <th>Responsable de la création</th>
+                <th>Catégorie</th>
                 <th>Editer</th>
                 <th>Supprimer</th>
             </tr>
@@ -25,14 +25,15 @@
                 <td th:text="${produit.dureeConservation}"></td>
                 <td th:text="${produit.dateCreation}"></td>
                 <td th:text="${produit.utilisateur}"></td>
-                <td th:text="${produit.categorie}"></td>
+                <td th:text="${produit.categorie.getNomCategorie()}"></td>
                 <td><a th:href="@{/updateProduit/{id}(id=${produit.id})}">Edit</a></td>
                 <td><a th:href="@{/deleteProduit/{id}(id=${produit.id})}">Delete</a></td>
             </tr>
         </table>
     </div>
 
-    <a th:href="@{/createProduit}">Création d'un nouveau produit</a>
+    <a th:href="@{/index}">Retour à l'index</a>
+    <a th:href="@{/createProduit}">Création d'un produit</a>
 
 
 </body>

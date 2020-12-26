@@ -1,5 +1,6 @@
 package com.cnam.nfa036projet.controller;
 
+import com.cnam.nfa036projet.form.UpdateUtilForm;
 import com.cnam.nfa036projet.model.Utilisateur;
 import com.cnam.nfa036projet.repository.UtilisateurRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,9 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-
 import javax.validation.Valid;
-
 import java.util.List;
 
 
@@ -119,18 +118,25 @@ public class IndexController {
 
     @GetMapping("/updateUtil/{id}")
     public String updateUtilisateurFormulaire(@PathVariable("id") long id, Model model) {
-        Utilisateur aUser = utilisateurRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Invalid user id:" + id));
-
+        Utilisateur utilisateur = utilisateurRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Invalid user id:" + id));
+        UpdateUtilForm aUser = new UpdateUtilForm(utilisateur.getId(),utilisateur.getNom(),utilisateur.getPrenom(),utilisateur.getEmail(),utilisateur.getLogin(),utilisateur.getPassword(),utilisateur.getRole());
         model.addAttribute("aUser", aUser);
         return "/Utilisateur/updateUtil";
     }
 
     @PostMapping("/updateUtil")
-    public String updateUtilisateur( @Valid Utilisateur aUser, BindingResult result, Model model) {
+    public String updateUtilisateur( @Valid UpdateUtilForm aUser, BindingResult result, Model model) {
         if (result.hasErrors()) {
             return "/Utilisateur/updateUtil";
         }
-        utilisateurRepository.save(aUser);
+        Utilisateur utilisateur = utilisateurRepository.findById(aUser.getid()).orElseThrow(() -> new IllegalArgumentException("Invalid user id"));
+        utilisateur.setNom(aUser.getNom());
+        utilisateur.setPrenom(aUser.getPrenom());
+        utilisateur.setEmail(aUser.getEmail());
+        utilisateur.setLogin(aUser.getLogin());
+        utilisateur.setPassword(aUser.getPassword());
+        utilisateur.setRole(aUser.getRole());
+        utilisateurRepository.save(utilisateur);
         model.addAttribute("userList", utilisateurRepository.findAll());
         return "/Utilisateur/readUtil";
     }

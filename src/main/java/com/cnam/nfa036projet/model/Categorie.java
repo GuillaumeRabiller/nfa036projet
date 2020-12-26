@@ -19,8 +19,7 @@ public class Categorie {
     @Column(nullable = false, name = "NOM_CATEGORIE")
     private String nomCategorie ;
 
-    @OneToMany
-    @JoinColumn(name="ID_PRODUIT")
+    @OneToMany(mappedBy = "categorie")
     private List<Produit> produits ;
 
 
@@ -32,10 +31,6 @@ public class Categorie {
 
 
     //GETTERS ET SETTERS
-
-    public Categorie(String nomCategorie) {
-        this.nomCategorie = nomCategorie;
-    }
 
     public long getId() {
         return id;
@@ -57,8 +52,16 @@ public class Categorie {
         return produits;
     }
 
-    public void setProduit(List<Produit> produits) {
-        this.produits = produits;
+    public void addProduit(Produit produit) {
+        produit.setCategorie(this);
+        produits.add(produit);
+
+    }
+
+    //Méthodes
+
+    public void deleteProduit(Produit produit) {
+        produits.remove(produit);
     }
 
     //REDEFINITION TOSTRING

@@ -1,10 +1,11 @@
 package com.cnam.nfa036projet.repository;
 
-import com.cnam.nfa036projet.model.Produit;
+import com.cnam.nfa036projet.model.Statut;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface ProduitRepository extends JpaRepository<Produit, Long> {
+public interface StatutRepository extends JpaRepository<Statut, Long> {
 
+    Statut findByNomStatut(String nomStatut);
 }
