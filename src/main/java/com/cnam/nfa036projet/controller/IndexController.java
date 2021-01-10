@@ -2,9 +2,14 @@ package com.cnam.nfa036projet.controller;
 
 import com.cnam.nfa036projet.form.UpdateUtilForm;
 import com.cnam.nfa036projet.model.Utilisateur;
+import com.cnam.nfa036projet.model.UtilisateurDetails;
 import com.cnam.nfa036projet.repository.UtilisateurRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -57,6 +62,7 @@ public class IndexController {
     }
 
 
+
     /**
      * LISTE DES UTILISATEURS EN BASE DE DONNEE
      *
@@ -101,6 +107,9 @@ public class IndexController {
             model.addAttribute("aUser", aUser);
             return "/Utilisateur/createUtil";
         } else {
+            BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+            String hashedPassword = passwordEncoder.encode(aUser.getPassword());
+            aUser.setPassword(hashedPassword);
             utilisateurRepository.save(aUser);
             List<Utilisateur> userList = utilisateurRepository.findAll();
             model.addAttribute("userList", userList);

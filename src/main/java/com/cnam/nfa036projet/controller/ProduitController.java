@@ -4,11 +4,13 @@ import com.cnam.nfa036projet.form.UpdateProduitForm;
 import com.cnam.nfa036projet.model.Categorie;
 import com.cnam.nfa036projet.model.Produit;
 import com.cnam.nfa036projet.model.Utilisateur;
+import com.cnam.nfa036projet.model.UtilisateurDetails;
 import com.cnam.nfa036projet.repository.CategorieRepository;
 import com.cnam.nfa036projet.repository.ProduitRepository;
 
 import com.cnam.nfa036projet.repository.UtilisateurRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -35,6 +37,22 @@ public class ProduitController {
 
     @Autowired
     private CategorieRepository categorieRepository ;
+
+    /*
+     *Méthode pour récupérer le nom + prénom de l'Utilisateur connecté
+     *
+     */
+
+    public String getNomUser(){
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+        if (principal instanceof UtilisateurDetails) {
+            return ((UtilisateurDetails)principal).getNomPrenom();
+        } else {
+            return principal.toString();
+        }
+    }
+
 
     /**
      * LISTE DES PRODUITS EN BASE DE DONNEE
@@ -83,11 +101,7 @@ public class ProduitController {
         } else {
             aProduit.setDateCreation(LocalDate.now());
 
-            //ajout en dur de l'utilisateur qui créé le produit (pour le moment Utilisateur avec ID = 1)
-            Optional<Utilisateur> utilisateur = utilisateurRepository.findById((long)1);
-            utilisateur.ifPresent(user -> {
-                aProduit.setUtilisateur(user.getNom() + " " + user.getPrenom());
-            });
+            aProduit.setUtilisateur(getNomUser());
 
             //Recupération de la categorie
             Optional<Categorie> cat = categorieRepository.findById(Long.valueOf(aProduit.getCategorieId()));

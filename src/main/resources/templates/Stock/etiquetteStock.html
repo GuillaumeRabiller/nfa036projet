@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Generation Etiquette PDF</title>
+</head>
+<body>
+    <div>
+        <table border="1">
+            <tr>
+                <th>id</th>
+                <th>Nom du Produit</th>
+                <th>Date / heure d'entrée</th>
+                <th>DLC</th>
+            </tr>
+            <tr th:object="${Etiquette}">
+                <td th:text="${Etiquette.id}"></td>
+                <td th:text="${Etiquette.nomProduit}"></td>
+                <td th:text="${Etiquette.dateEntree}"></td>
+                <td th:text="${Etiquette.dlc}"></td>
+            </tr>
+        </table>
+    </div>
+</body>
+</html>

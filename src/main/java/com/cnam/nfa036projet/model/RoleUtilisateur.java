@@ -2,6 +2,6 @@ package com.cnam.nfa036projet.model;
 
 public enum RoleUtilisateur {
 
-   ADMIN, UTILISATEUR ;
+   ROLE_ADMIN, ROLE_UTILISATEUR ;
 
 }

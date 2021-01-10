@@ -39,6 +39,7 @@ public class Utilisateur {
     @Enumerated(EnumType.STRING)
     private RoleUtilisateur role ;
 
+
     //CONSTRUCTEURS
 
     public Utilisateur() {

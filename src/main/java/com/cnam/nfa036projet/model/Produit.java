@@ -119,6 +119,10 @@ public class Produit {
         newCategorie.addProduit(this);
     }
 
+    public void deleteStock(Stock stock) {
+        stocks.remove(stock);
+    }
+
 
     //REDEFINITION TOSTRING
 

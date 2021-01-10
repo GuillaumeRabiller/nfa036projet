@@ -3,6 +3,7 @@ package com.cnam.nfa036projet;
 import com.cnam.nfa036projet.model.Produit;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 import java.util.Collection;
 import java.util.Iterator;

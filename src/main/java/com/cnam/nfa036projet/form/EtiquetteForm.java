@@ -3,30 +3,24 @@ package com.cnam.nfa036projet.form;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
-public class StockForm {
+public class EtiquetteForm {
 
     private long id ;
 
     private String nomProduit ;
 
-    private String categorie ;
-
     private LocalDateTime dateEntree ;
 
     private LocalDateTime dlc ;
 
-    private String statut ;
-
-    public StockForm(long id, String nomProduit, String categorie, LocalDateTime dateEntree, LocalDateTime dlc, String statut) {
+    public EtiquetteForm(long id, String nomProduit, LocalDateTime dateEntree, LocalDateTime dlc) {
         this.id = id;
         this.nomProduit = nomProduit;
-        this.categorie = categorie;
         this.dateEntree = dateEntree;
         this.dlc = dlc;
-        this.statut = statut;
     }
 
-    public StockForm(){
+    public EtiquetteForm(){
         super();
     }
 
@@ -46,14 +40,6 @@ public class StockForm {
         this.nomProduit = nomProduit;
     }
 
-    public String getCategorie() {
-        return categorie;
-    }
-
-    public void setCategorie(String categorie) {
-        this.categorie = categorie;
-    }
-
     public LocalDateTime getDateEntree() {
         return dateEntree;
     }
@@ -70,11 +56,4 @@ public class StockForm {
         this.dlc = dlc;
     }
 
-    public String getStatut() {
-        return statut;
-    }
-
-    public void setStatut(String statut) {
-        this.statut = statut;
-    }
 }

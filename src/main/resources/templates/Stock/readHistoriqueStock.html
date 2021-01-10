@@ -20,22 +20,20 @@
 <div>
     <table border="1">
         <tr>
-            <th>id</th>
+            <th>id Produit</th>
             <th>Nom du Produit</th>
             <th>Catégorie du produit</th>
-            <th>Date / heure d'entrée</th>
-            <th>DLC</th>
-            <th>Date de sortie</th>
+            <th>Date du mouvement</th>
             <th>Statut</th>
+            <th>Utilisateur</th>
         </tr>
         <tr th:each="stock:${historiqueList}">
-            <td th:text="${stock.id}"></td>
+            <td th:text="${stock.idProduit}"></td>
             <td th:text="${stock.nomProduit}"></td>
             <td th:text="${stock.categorie}"></td>
-            <td th:text="${stock.dateEntree}"></td>
-            <td th:text="${stock.dlc}"></td>
-            <td th:text="${stock.dateSortie}"></td>
+            <td th:text="${stock.dateMouvement}"></td>
             <td th:text="${stock.statut}"></td>
+            <td th:text="${stock.utilisateur}"></td>
         </tr>
     </table>
 </div>

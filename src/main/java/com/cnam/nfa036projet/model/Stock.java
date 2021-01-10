@@ -1,9 +1,8 @@
 package com.cnam.nfa036projet.model;
 
-import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Entity
 public class Stock {
@@ -15,13 +14,8 @@ public class Stock {
     @Column(name = "ID_STOCK")
     private long id ;
 
-    @DateTimeFormat(pattern = "YYYY-MM-dd")
-    @Column(name = "DATE_ENTREE_STOCK", nullable = false)
-    private LocalDate dateEntree ;
-
-    @DateTimeFormat(pattern = "YYYY-MM-dd")
-    @Column(name = "DATE_SORTIE_STOCK")
-    private LocalDate dateSortie ;
+    @Column(name = "DATE_ENTREE_STOCK", columnDefinition = "TIMESTAMP", nullable = false)
+    private LocalDateTime dateEntree ;
 
     @ManyToOne
     @JoinColumn(name = "ID_PRODUIT")
@@ -52,20 +46,12 @@ public class Stock {
         this.id = id;
     }
 
-    public LocalDate getDateEntree() {
+    public LocalDateTime getDateEntree() {
         return dateEntree;
     }
 
-    public void setDateEntree(LocalDate dateEntree) {
+    public void setDateEntree(LocalDateTime dateEntree) {
         this.dateEntree = dateEntree;
-    }
-
-    public LocalDate getDateSortie() {
-        return dateSortie;
-    }
-
-    public void setDateSortie(LocalDate dateSortie) {
-        this.dateSortie = dateSortie;
     }
 
     public Produit getProduit() {

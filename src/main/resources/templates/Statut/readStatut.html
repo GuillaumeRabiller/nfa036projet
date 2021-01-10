@@ -12,20 +12,22 @@
             <tr>
                 <th>id</th>
                 <th>Nom du Statut</th>
-                <th>Editer</th>
-                <th>Supprimer</th>
+                <th sec:authorize="hasRole('ADMIN')">Editer</th>
+                <th sec:authorize="hasRole('ADMIN')">Supprimer</th>
             </tr>
             <tr th:each="statut:${statutList}">
                 <td th:text="${statut.id}"></td>
                 <td th:text="${statut.nomStatut}"></td>
-                <td><a th:href="@{/updateStatut/{id}(id=${statut.id})}">Edit</a></td>
-                <td><a th:href="@{/deleteStatut/{id}(id=${statut.id})}">Delete</a></td>
+                <td sec:authorize="hasRole('ADMIN')"><a th:href="@{/updateStatut/{id}(id=${statut.id})}">Edit</a></td>
+                <td sec:authorize="hasRole('ADMIN')"><a th:href="@{/deleteStatut/{id}(id=${statut.id})}">Delete</a></td>
             </tr>
         </table>
     </div>
 
     <a th:href="@{/index}">Retour à l'index</a>
+    <div sec:authorize="hasRole('ADMIN')">
     <a th:href="@{/createStatut}">Création d'un nouveau statut</a>
+    </div>
 
 
 </body>

@@ -7,7 +7,7 @@
 </head>
 <body>
     <h1>Etat du stock :</h1>
-    <form th:action="@{/readHistoriqueStock}"
+    <form sec:authorize="hasRole('ADMIN')" th:action="@{/readHistoriqueStock}"
           th:object="${dateStock}" method="POST">
         <div class="form-group">
             <label>Historique du Stock</label>
