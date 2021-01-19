@@ -74,8 +74,9 @@ public class StockController {
         for (Stock stock:stocks) {
 
                 //MISE A JOUR DU STATUT SI DLC COURTE = INFERIEUR A 24 HEURES + SAUVEGARDE NV STATUT EN BASE + SAUVEGARDE HISTORIQUE
-                LocalDateTime dateEntree = stock.getDateEntree();
+                LocalDateTime dateEntree = stock.getDateEntree().truncatedTo(ChronoUnit.SECONDS);
                 LocalDateTime dlc = dateEntree.plusDays(stock.getProduit().getDureeConservation());
+                dlc.truncatedTo(ChronoUnit.SECONDS);
                 long daysBetween = LocalDateTime.now().until(dlc, ChronoUnit.HOURS);
                 if (stock.getStatut().getNomStatut().equals("En Stock") && daysBetween <= 24) {
                     Statut statut = findByNomStatut("A Contrôler");
@@ -86,7 +87,7 @@ public class StockController {
                     StockHistorique historique = new StockHistorique();
                     historique.setDateMouvementStock(LocalDateTime.now());
                     historique.setProduit(stock.getProduit().getNomProduit());
-                    historique.setIdProduit(stock.getProduit().getId());
+                    historique.setIdProduit(stock.getId());
                     historique.setUtilisateur(getNomUser());
                     historique.setStatut(statut.getNomStatut());
                     historique.setCategorie(stock.getProduit().getCategorie().getNomCategorie());
@@ -119,15 +120,62 @@ public class StockController {
                 String categorie = stock.getCategorie();
                 String statut = stock.getStatut();
                 String utilisateur = stock.getUtilisateur();
-                LocalDateTime dateMouvement = stock.getDateMouvementStock();
+                LocalDateTime dateMouvement = stock.getDateMouvementStock().truncatedTo(ChronoUnit.SECONDS);
 
                 HistoriqueForm aStock = new HistoriqueForm(idProduit, nomProduit, categorie, statut, dateMouvement, utilisateur);
                 stockList.add(aStock);
             }
         }
+        //Tri de la liste selon ID stock
+        //A FAIRE
+        //
+
         return stockList ;
     }
 
+    //HISTORIQUE DES STOCKS SELON UNE ID PRODUIT
+
+    public List<HistoriqueForm> historiqueStockById(long id) {
+        List<StockHistorique> stocks = stockHistoriqueRepository.findAll();
+        List<HistoriqueForm> stockList = new ArrayList<>();
+        for (StockHistorique stock:stocks) {
+            //renseignement de la liste selon l'ID produit
+            if( stock.getIdProduit() == id )
+            {
+                long idProduit = stock.getIdProduit();
+                String nomProduit = stock.getProduit();
+                String categorie = stock.getCategorie();
+                String statut = stock.getStatut();
+                String utilisateur = stock.getUtilisateur();
+                LocalDateTime dateMouvement = stock.getDateMouvementStock().truncatedTo(ChronoUnit.SECONDS);
+
+                HistoriqueForm aStock = new HistoriqueForm(idProduit, nomProduit, categorie, statut, dateMouvement, utilisateur);
+                stockList.add(aStock);
+            }
+        }
+        //Tri de la liste selon DATE
+        //A FAIRE
+        //
+
+        return stockList ;
+    }
+
+
+    /**
+     * PAGE INDEX AVEC TABLEAU DE BORD
+     *
+     * READ
+     *
+     *
+     */
+
+    @RequestMapping(value = {"/", "/index"}, method = RequestMethod.GET)
+    public String home(Model model) {
+        model.addAttribute("stockList", listeStock());
+        DateStockForm dateStock = new DateStockForm();
+        model.addAttribute("dateStock",dateStock);
+        return "/index";
+    }
 
     /**
      * LISTE DES PRODUITS EN MOUVEMENT DE STOCK
@@ -137,7 +185,7 @@ public class StockController {
      *
      */
 
-    @GetMapping("/readStock")
+    @RequestMapping(value = { "/readStock"}, method = RequestMethod.GET)
     public String readStock(Model model) {
         model.addAttribute("stockList", listeStock());
         DateStockForm dateStock = new DateStockForm();
@@ -159,6 +207,27 @@ public class StockController {
             return readStock(model);
         } else {
             model.addAttribute("historiqueList", historiqueStock(LocalDate.parse(dateHistorique.getDate())));
+            DateStockForm dateStock = new DateStockForm();
+            model.addAttribute("dateStock",dateStock);
+            return "/Stock/readHistoriqueStock";
+        }
+    }
+
+
+    /**
+     * HISTORIQUE DES PRODUITS SELON ID
+     *
+     * READ
+     *
+     *
+     */
+
+    @PostMapping("/readHistoriqueStockById")
+    public String readHistoriqueById(@ModelAttribute("dateStock") DateStockForm dateHistorique, BindingResult bindingResult, Model model){
+        if(bindingResult.hasErrors()){
+            return readStock(model);
+        } else {
+            model.addAttribute("historiqueList", historiqueStockById(dateHistorique.getId()));
             DateStockForm dateStock = new DateStockForm();
             model.addAttribute("dateStock",dateStock);
             return "/Stock/readHistoriqueStock";
@@ -202,7 +271,6 @@ public class StockController {
             produit.ifPresent(product -> {
                 product.addStock(stock);
                 historique.setProduit(product.getNomProduit());
-                historique.setIdProduit(product.getId());
                 historique.setCategorie(product.getCategorie().getNomCategorie());
             });
             Statut statut = findByNomStatut("En Stock");
@@ -211,11 +279,13 @@ public class StockController {
             historique.setUtilisateur(getNomUser());
 
             stockRepository.save(stock);
+            historique.setIdProduit(stock.getId());
             stockHistoriqueRepository.save(historique);
 
             //Génération de l'étiquette PDF
-            LocalDateTime dateEntree = stock.getDateEntree();
+            LocalDateTime dateEntree = stock.getDateEntree().truncatedTo(ChronoUnit.SECONDS);
             LocalDateTime dlc = dateEntree.plusDays(stock.getProduit().getDureeConservation());
+            dlc.truncatedTo(ChronoUnit.SECONDS);
             EtiquetteForm etiquette = new EtiquetteForm(stock.getId(), stock.getProduit().getNomProduit(), dateEntree, dlc );
             String templateHtml = parseEtiquetteTemplate(etiquette) ;
             generatePdfFromHtml (templateHtml) ;
@@ -265,7 +335,7 @@ public class StockController {
         StockHistorique historique = new StockHistorique();
         historique.setDateMouvementStock(LocalDateTime.now());
         historique.setProduit(stock.getProduit().getNomProduit());
-        historique.setIdProduit(stock.getProduit().getId());
+        historique.setIdProduit(stock.getId());
         historique.setUtilisateur(getNomUser());
         historique.setStatut(statut.getNomStatut());
         historique.setCategorie(stock.getProduit().getCategorie().getNomCategorie());

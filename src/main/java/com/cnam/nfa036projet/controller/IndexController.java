@@ -41,13 +41,13 @@ public class IndexController {
      * @param model
      * @return PAGE INDEX, AVEC LES DIVERS LIENS
      */
-
+/*
     @RequestMapping(value = {"/", "/index"}, method = RequestMethod.GET)
     public String home(Model model) {
         model.addAttribute("msg_accueil", welcomeMessage);
         return "index";
     }
-
+*/
     /**
      * SPRING SECURITY
      *

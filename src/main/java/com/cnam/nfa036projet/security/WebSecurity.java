@@ -55,8 +55,8 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
         http.authorizeRequests()
                     .antMatchers("/updateUtil/**", "/createUtil", "/deleteUtil/**", "/readHistoriqueStock",
                             "createStatut", "updateStatut", "updateProduit", "createProduit", "updateCategorie", "createCategorie").hasRole("ADMIN")
-                    .antMatchers("/readUtil", "/readStock", "/readStatut", "/readProduit", "/readCategorie", "/updateStock", "createStock").hasAnyRole("ADMIN", "UTILISATEUR")
-                    .antMatchers("/", "/index", "/login").permitAll()
+                    .antMatchers("/", "/index","/readUtil", "/readStock", "/readStatut", "/readProduit", "/readCategorie", "/updateStock", "createStock").hasAnyRole("ADMIN", "UTILISATEUR")
+                    .antMatchers( "/login", "/styles/**", "/pics/**").permitAll()
                     .anyRequest().authenticated()
                     .and()
                 .formLogin()

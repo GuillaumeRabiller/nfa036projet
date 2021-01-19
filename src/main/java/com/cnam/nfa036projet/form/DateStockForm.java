@@ -10,6 +10,8 @@ public class DateStockForm {
     @DateTimeFormat(pattern = "YYYY-MM-dd")
     private String date ;
 
+    private long id;
+
     public DateStockForm() {
     }
 
@@ -19,5 +21,13 @@ public class DateStockForm {
 
     public void setDate(String dateStock) {
         this.date = dateStock;
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
     }
 }
