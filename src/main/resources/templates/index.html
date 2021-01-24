@@ -14,9 +14,11 @@
     <title>Projet NFA036 - Tracer restaurant</title>
 </head>
 
-<body class="container">
+<body class="container no-padding">
 
     <!-- ------------------------    HEADER    ---------------------------- -->
+
+    <!-- th:replace -->
 
     <div class="row">
 
@@ -35,20 +37,26 @@
 
 
     <div class="row">
-
-        <a class="btn btn-outline-secondary" th:href="@{/readUtil}" role="button">Gestion des utilisateurs</a>
-
-
-        <a class="btn btn-outline-secondary" th:href="@{/readProduit}" role="button">Gestion des Produits</a>
-
-
-        <a class="btn btn-outline-secondary" th:href="@{/readCategorie}" role="button">Gestion des Catégories produit</a>
-
+        <div class="col-6">
+            <a class="btn btn-outline-secondary" th:href="@{/readProduit}" role="button">Gestion des Produits</a>
+        </div>
+        <div class="col-6">
+            <a class="btn btn-outline-secondary" th:href="@{/readCategorie}" role="button">Gestion des Catégories produit</a>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-6">
+            <a class="btn btn-outline-secondary" th:href="@{/readUtil}" role="button">Gestion des utilisateurs</a>
+        </div>
+        <div class="d-grip gap-2 col-6">
+            <a class="btn btn-outline-secondary" th:href="@{/readFrigo}" role="button">Gestion des frigos</a>
+        </div>
     </div>
 
+
     <br>
     <br>
-    <h2>Tableau de bord des produits en En-Cours</h2>
+    <h2>Attention ! Produits à contrôler !!</h2>
 
     <div class="row">
         <table border="1" class="table table-striped table-hover">
@@ -59,35 +67,53 @@
                 <th>Date / heure d'entrée</th>
                 <th>DLC</th>
                 <th>Statut</th>
-                <th>MAJ</th>
             </tr>
-            <tr th:each="stock:${stockList}">
+            <tr th:each="stock:${stockList}" th:if="${stock.statut} != 'En Stock'" th:style="${stock.colorStatut} == 2 ? 'background: orange' : 'background: red'  ">
                 <td th:text="${stock.id}"></td>
                 <td th:text="${stock.nomProduit}"></td>
                 <td th:text="${stock.categorie}"></td>
                 <td th:text="${stock.dateEntree}"></td>
                 <td th:text="${stock.dlc}"></td>
                 <td th:text="${stock.statut}"></td>
-                <td><a th:href="@{/updateStock/{id}(id=${stock.id})}">Edit</a></td>
             </tr>
         </table>
     </div>
 
-    <a th:href="@{/createStock}">Ajout d'un produit en stock</a>
+    <a class="btn btn-info" th:href="@{/readStock}" role="button">Gestion du stock</a>
 
     <br>
     <br>
     <h2>Relevé des températures frigo</h2>
 
+    <div class="row">
+        <table border="1" class="table table-striped table-hover">
+            <tr>
+                <th>id</th>
+                <th>Nom du Produit</th>
+                <th>Catégorie du produit</th>
+                <th>Date / heure d'entrée</th>
+                <th>DLC</th>
+                <th>Statut</th>
+            </tr>
+            <tr th:each="stock:${stockList}" th:if="${stock.statut} != 'En Stock'" th:style="${stock.colorStatut} == 2 ? 'background: orange' : 'background: red'  ">
+                <td th:text="${stock.id}"></td>
+                <td th:text="${stock.nomProduit}"></td>
+                <td th:text="${stock.categorie}"></td>
+                <td th:text="${stock.dateEntree}"></td>
+                <td th:text="${stock.dlc}"></td>
+                <td th:text="${stock.statut}"></td>
+            </tr>
+        </table>
+    </div>
+
+
+    <a class="btn btn-info" th:href="@{/createTemp}" role="button">Ajout d'une température</a>
+
+
+
     <br>
     <br>
 
-    <div class="row">
-        <a th:href="@{/readStatut}">Gestion des Statuts</a>
-        <br/>
-        <br/>
-        <a th:href="@{/readStock}">Gestion du stock</a>
-    </div>
 
 
     <!-- ------------------------    FOOTER    ---------------------------- -->
@@ -104,6 +130,7 @@
                 <form th:action="@{/logout}" method="post">
                     <input type="submit" value="Sign Out"/>
                 </form>
+                <a  th:href="@{/readStatut}" role="button">Gestion des Statuts</a>
             </div>
         </footer>
     </div>

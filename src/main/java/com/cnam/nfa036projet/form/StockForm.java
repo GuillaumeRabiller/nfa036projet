@@ -17,13 +17,16 @@ public class StockForm {
 
     private String statut ;
 
-    public StockForm(long id, String nomProduit, String categorie, LocalDateTime dateEntree, LocalDateTime dlc, String statut) {
+    private int colorStatut ;
+
+    public StockForm(long id, String nomProduit, String categorie, LocalDateTime dateEntree, LocalDateTime dlc, String statut, int colorStatut) {
         this.id = id;
         this.nomProduit = nomProduit;
         this.categorie = categorie;
         this.dateEntree = dateEntree;
         this.dlc = dlc;
         this.statut = statut;
+        this.colorStatut = colorStatut ;
     }
 
     public StockForm(){
@@ -76,5 +79,13 @@ public class StockForm {
 
     public void setStatut(String statut) {
         this.statut = statut;
+    }
+
+    public int getColorStatut() {
+        return colorStatut;
+    }
+
+    public void setColorStatut(int colorStatut) {
+        this.colorStatut = colorStatut;
     }
 }

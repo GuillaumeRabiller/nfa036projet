@@ -45,7 +45,6 @@
                 <th>Prénom</th>
                 <th>email</th>
                 <th>login</th>
-                <th>password</th>
                 <th>role</th>
                 <th sec:authorize="hasRole('ADMIN')">Editer</th>
                 <th sec:authorize="hasRole('ADMIN')">Supprimer</th>
@@ -56,7 +55,6 @@
                 <td th:text="${utilisateur.prenom}"></td>
                 <td th:text="${utilisateur.email}"></td>
                 <td th:text="${utilisateur.login}"></td>
-                <td th:text="${utilisateur.password}"></td>
                 <td th:text="${utilisateur.role}"></td>
                 <td sec:authorize="hasRole('ADMIN')"><a th:href="@{/updateUtil/{id}(id=${utilisateur.id})}">Edit</a></td>
                 <td sec:authorize="hasRole('ADMIN')"><a th:href="@{/deleteUtil/{id}(id=${utilisateur.id})}">Delete</a></td>

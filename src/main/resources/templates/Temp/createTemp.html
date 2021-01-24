@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="author" content="Guillaume Rabiller" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="Page formulaire création Température frigo">
+
+    <!-- CSS + Bootstrap CSS -->
+    <link rel="stylesheet" th:href="@{/styles/css/style.css}"/>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Open+Sans&family=Roboto&display=swap">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+
+    <title>Formulaire création température frigo</title>
+</head>
+
+
+<body class="container">
+
+<!-- ------------------------    HEADER    ---------------------------- -->
+
+<div class="row">
+
+    <header class="col-12" role="banner">
+        <img id="floatright" th:src="@{/pics/logo.png}" alt="logo logiciel" width="100" height="100">
+        <p class="gras">TPR - Traçage Produits Restaurant</p>
+        <p class="d-none d-md-none d-lg-block"> Logiciel de gestion de stock restaurant  </p>
+        <p th:inline="text">Bienvenue [[${#httpServletRequest.remoteUser}]]!</p>
+
+
+    </header>
+
+</div>
+
+
+<!--  --------------------    MAIN DE LA PAGE     -------------------  -->
+
+<div class="row">
+    <h1>Insertion Température Frigo</h1>
+
+
+    <form th:action="@{/saveTemp}"
+          th:object="${aTemp}" method="POST">
+        <div class="form-group">
+            <label>Choix du frigo</label>
+            <select th:field="*{frigoId}">
+                <option th:each="frigo : *{frigoList}"
+                        th:value="${frigo.id}"
+                        th:text="${frigo.nomFrigo}"/>
+            </select>
+            <br/>
+        </div>
+        <div class="form-group">
+            <label>Température relevée</label>
+            <input type="text" th:field="*{temperature}" />
+            <span class="error" th:if="${#fields.hasErrors('temperature')}" th:errors="*{temperature}"></span>
+            <br/>
+        </div>
+        <input type="submit" value="Submit" />
+        <input type="reset" value="Reset" />
+    </form>
+</div>
+
+
+<!-- ------------------------    FOOTER    ---------------------------- -->
+
+<div class="row">
+    <footer class="col-12" role="contentinfo">
+        <div class="row">
+            <div class="col-3">
+                <a href="#" title="about">A propos</a>
+            </div>
+            <div class="col-3">
+                <a href="mailto:g.rabiller44@gmail.com" title="lien email" target="_blank">Service Client </a>
+            </div>
+            <form th:action="@{/logout}" method="post">
+                <input type="submit" value="Sign Out"/>
+            </form>
+        </div>
+    </footer>
+</div>
+
+</body>
+</html>

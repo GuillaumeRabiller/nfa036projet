@@ -7,6 +7,8 @@ import com.cnam.nfa036projet.repository.ProduitRepository;
 import com.cnam.nfa036projet.repository.StatutRepository;
 import com.cnam.nfa036projet.repository.StockHistoriqueRepository;
 import com.cnam.nfa036projet.repository.StockRepository;
+import com.cnam.nfa036projet.service.StockService;
+import com.cnam.nfa036projet.service.UtilisateurDetailsService;
 import com.lowagie.text.DocumentException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -46,6 +48,8 @@ public class StockController {
     @Autowired
     private StockHistoriqueRepository stockHistoriqueRepository ;
 
+    private StockService stockService = new StockService() ;
+
     public Statut findByNomStatut(String nomStatut){
         Statut statut = statutRepository.findByNomStatut(nomStatut);
         return statut ;
@@ -55,7 +59,7 @@ public class StockController {
      *Méthode pour récupérer le nom + prénom de l'Utilisateur connecté
      *
      */
-
+/*
     public String getNomUser(){
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
@@ -65,7 +69,7 @@ public class StockController {
             return principal.toString();
         }
     }
-
+*/
     //Méthode d'envoi de la Liste de Produits en Stock, étant appelée après chaque opération
 
     public List<StockForm> listeStock() {
@@ -88,7 +92,7 @@ public class StockController {
                     historique.setDateMouvementStock(LocalDateTime.now());
                     historique.setProduit(stock.getProduit().getNomProduit());
                     historique.setIdProduit(stock.getId());
-                    historique.setUtilisateur(getNomUser());
+                    historique.setUtilisateur(UtilisateurDetailsService.getNomUser());
                     historique.setStatut(statut.getNomStatut());
                     historique.setCategorie(stock.getProduit().getCategorie().getNomCategorie());
                     stockHistoriqueRepository.save(historique);
@@ -99,8 +103,14 @@ public class StockController {
                 String nomProduit = stock.getProduit().getNomProduit();
                 String categorie = stock.getProduit().getCategorie().getNomCategorie();
                 String statut = stock.getStatut().getNomStatut();
+                int nbStatut = 0 ;
+                if (daysBetween > 24) {
+                    nbStatut = 1;
+                } else if (daysBetween >= 0) {
+                    nbStatut = 2;
+                } else nbStatut = 3;
 
-                StockForm aStock = new StockForm(id, nomProduit, categorie, dateEntree, dlc, statut);
+                StockForm aStock = new StockForm(id, nomProduit, categorie, dateEntree, dlc, statut, nbStatut);
                 stockList.add(aStock);
         }
         return stockList ;
@@ -172,8 +182,6 @@ public class StockController {
     @RequestMapping(value = {"/", "/index"}, method = RequestMethod.GET)
     public String home(Model model) {
         model.addAttribute("stockList", listeStock());
-        DateStockForm dateStock = new DateStockForm();
-        model.addAttribute("dateStock",dateStock);
         return "/index";
     }
 
@@ -276,7 +284,7 @@ public class StockController {
             Statut statut = findByNomStatut("En Stock");
             statut.addStock(stock);
             historique.setStatut(statut.getNomStatut());
-            historique.setUtilisateur(getNomUser());
+            historique.setUtilisateur(UtilisateurDetailsService.getNomUser());
 
             stockRepository.save(stock);
             historique.setIdProduit(stock.getId());
@@ -336,7 +344,7 @@ public class StockController {
         historique.setDateMouvementStock(LocalDateTime.now());
         historique.setProduit(stock.getProduit().getNomProduit());
         historique.setIdProduit(stock.getId());
-        historique.setUtilisateur(getNomUser());
+        historique.setUtilisateur(UtilisateurDetailsService.getNomUser());
         historique.setStatut(statut.getNomStatut());
         historique.setCategorie(stock.getProduit().getCategorie().getNomCategorie());
         stockHistoriqueRepository.save(historique);
