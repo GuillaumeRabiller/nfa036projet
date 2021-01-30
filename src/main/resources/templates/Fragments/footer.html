@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+    <meta name="author" content="Guillaume Rabiller" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="footer des pages HTML">
+
+    <!-- CSS + Bootstrap CSS -->
+    <link rel="stylesheet" th:href="@{/styles/css/style.css}"/>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Open+Sans&family=Roboto&display=swap">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+
+    <title>footer des pages HTML</title>
+</head>
+
+<body class="container">
+
+    <footer role="contentinfo">
+        <div class="row">
+            <div class="col">
+                <a href="#" title="about" class="aligncenter">A propos</a>
+            </div>
+            <div class="col">
+                <a href="mailto:g.rabiller44@gmail.com" title="lien email" target="_blank" class="aligncenter">Support Client </a>
+            </div>
+            <div class="col">
+                <form th:action="@{/logout}" method="post">
+                    <input type="submit" value="Se déconnecter"/>
+                </form>
+            </div>
+        </div>
+
+    </footer>
+
+
+</body>
+</html>

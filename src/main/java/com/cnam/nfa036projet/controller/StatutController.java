@@ -12,6 +12,21 @@ import javax.validation.Valid;
 import java.util.List;
 
 
+/**
+ *
+ * CONTROLLER DESACTIVÉ, IL SERT EN DEBUT DE PRODUCTION POUR CREER LES DIFFERENTS STATUTS
+ * UNE FOIS LES STATUTS CRÉÉS, IL NE FAUT PLUS Y TOUCHER
+ *
+ * LISTE DES STATUTS A CREER :
+ *
+ * En Stock
+ * A Contrôler
+ * Retiré
+ * Erreur
+ * Consommé
+ *
+ */
+
 @Controller
 public class StatutController {
 
@@ -24,7 +39,6 @@ public class StatutController {
      *
      * READ
      *
-     *  A TEST
      */
 
     @GetMapping("/readStatut")
@@ -39,7 +53,6 @@ public class StatutController {
      *
      * CREATE
      *
-     * A TEST
      */
 
     @RequestMapping(value = {"/createStatut"}, method = RequestMethod.GET)
@@ -54,7 +67,6 @@ public class StatutController {
      *
      * SAVE
      *
-     * A TEST
      */
 
     @RequestMapping(value = {"/saveStatut"}, method = RequestMethod.POST)
@@ -75,7 +87,6 @@ public class StatutController {
      *
      * UPDATE
      *
-     * A TEST
      */
 
     @GetMapping("/updateStatut/{id}")
@@ -101,7 +112,6 @@ public class StatutController {
      *
      * DELETE
      *
-     * A TEST
      */
 
     @GetMapping("/deleteStatut/{id}")

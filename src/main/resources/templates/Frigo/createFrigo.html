@@ -9,6 +9,7 @@
     <!-- CSS + Bootstrap CSS -->
     <link rel="stylesheet" th:href="@{/styles/css/style.css}"/>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Open+Sans&family=Roboto&display=swap">
+    <script src="https://kit.fontawesome.com/610665bae1.js" crossorigin="anonymous"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
 
     <title>Formulaire création frigo</title>
@@ -19,21 +20,18 @@
 
     <!-- ------------------------    HEADER    ---------------------------- -->
 
-    <div class="row">
-
-        <header class="col-12" role="banner">
-            <img id="floatright" th:src="@{/pics/logo.png}" alt="logo logiciel" width="100" height="100">
-            <p class="gras">TPR - Traçage Produits Restaurant</p>
-            <p class="d-none d-md-none d-lg-block"> Logiciel de gestion de stock restaurant  </p>
-            <p th:inline="text">Bienvenue [[${#httpServletRequest.remoteUser}]]!</p>
-
-
-        </header>
-
-    </div>
-
+    <div th:replace="Fragments/header :: header"></div>
 
     <!--  --------------------    MAIN DE LA PAGE     -------------------  -->
+
+
+    <div class="row">
+        <a class="btn btn-outline-secondary" th:href="@{/index}" role="button"><i class="fas fa-home"></i> Retour au Tableau de Bord</a>
+    </div>
+
+    <br>
+    <br>
+
 
     <div class="row">
         <h1>Création d'un Frigo</h1>
@@ -45,13 +43,13 @@
                 <label>Nom du frigo</label>
                 <input type="text" th:field="*{nomFrigo}" />
                 <span class="error" th:if="${#fields.hasErrors('nomFrigo')}">Erreur sur le nom</span>
-                <br/>
+                <br>
             </div>
             <div class="form-group">
                 <label>Description</label>
                 <input type="text" th:field="*{descFrigo}" />
                 <span class="error" th:if="${#fields.hasErrors('descFrigo')}">Erreur sur la description</span>
-                <br/>
+                <br>
             </div>
             <input type="submit" value="Submit" />
             <input type="reset" value="Reset" />
@@ -59,23 +57,16 @@
     </div>
 
 
+    <br>
+    <br>
+
+
+
     <!-- ------------------------    FOOTER    ---------------------------- -->
 
-    <div class="row">
-        <footer class="col-12" role="contentinfo">
-            <div class="row">
-                <div class="col-3">
-                    <a href="#" title="about">A propos</a>
-                </div>
-                <div class="col-3">
-                    <a href="mailto:g.rabiller44@gmail.com" title="lien email" target="_blank">Service Client </a>
-                </div>
-                <form th:action="@{/logout}" method="post">
-                    <input type="submit" value="Sign Out"/>
-                </form>
-            </div>
-        </footer>
-    </div>
+    <div th:replace="Fragments/footer :: footer"></div>
+
+
 
 </body>
 </html>

@@ -4,24 +4,39 @@ import com.cnam.nfa036projet.form.StockForm;
 import com.cnam.nfa036projet.model.Statut;
 import com.cnam.nfa036projet.model.Stock;
 import com.cnam.nfa036projet.model.StockHistorique;
-import org.springframework.data.jpa.repository.JpaRepository;
+import com.cnam.nfa036projet.repository.StatutRepository;
+import com.cnam.nfa036projet.repository.StockHistoriqueRepository;
+import com.cnam.nfa036projet.repository.StockRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 
 
+@Service
+@Transactional
 public class StockService {
 
-    private static JpaRepository<Stock, Long> stockRepository;
-    private static JpaRepository<Statut, Long> statutRepository;
-    private static JpaRepository<StockHistorique, Long> stockHistoriqueRepository;
+    @Autowired
+    private StockRepository stockRepository ;
+
+    @Autowired
+    private StatutRepository statutRepository ;
+
+    @Autowired
+    private StockHistoriqueRepository stockHistoriqueRepository ;
+
+    @Autowired
+    private UtilisateurService userService ;
 
 
+    // Méthode d'envoi de la Liste de Produits en Stock, étant appelée après chaque opération
 
-    //Méthode d'envoi de la Liste de Produits en Stock, étant appelée après chaque opération
-
-    public static List<StockForm> listeStock() {
+    public List<StockForm> listeStock() {
         List<Stock> stocks = stockRepository.findAll();
         List<StockForm> stockList = new ArrayList<>();
         for (Stock stock:stocks) {
@@ -41,7 +56,7 @@ public class StockService {
                 historique.setDateMouvementStock(LocalDateTime.now());
                 historique.setProduit(stock.getProduit().getNomProduit());
                 historique.setIdProduit(stock.getId());
-                historique.setUtilisateur(UtilisateurDetailsService.getNomUser());
+                historique.setUtilisateur(userService.getNomUser());
                 historique.setStatut(statut.getNomStatut());
                 historique.setCategorie(stock.getProduit().getCategorie().getNomCategorie());
                 stockHistoriqueRepository.save(historique);
