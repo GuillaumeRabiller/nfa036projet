@@ -6,7 +6,6 @@ h2 {
     color:#5C8B26;
 }
 
-
 table {
     border-collapse: collapse;
 }
@@ -33,9 +32,24 @@ table th, table td {
     text-align: center ;
 }
 
-/* ------------------    BOUTONS INPUT + RESET DANS LE BODY    -----------------  */
+.btnmenu {
+    display: flex;
+    font-weight: 400;
+    line-height: 1.5;
+    text-align: center;
+    text-decoration: none;
+    vertical-align: middle;
+    cursor: pointer;
+    user-select: none;
+    background-color: transparent;
+    border: 1px solid transparent;
+    transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+}
 
-input[type=submit], input[type=reset] {
+
+/* ------------------    BOUTONS INPUT + RESET + BACK DANS LE BODY    -----------------  */
+
+input[type=submit], input[type=reset], .backbutton {
     padding:5px 15px;
     background:#265C8B;
     color: white;
@@ -43,9 +57,10 @@ input[type=submit], input[type=reset] {
     cursor:pointer;
     -webkit-border-radius: 5px;
     border-radius: 5px;
+    text-decoration: none;
 }
 
-input[type=submit]:hover, input[type=reset]:hover  {
+input[type=submit]:hover, input[type=reset]:hover, .backbutton:hover {
     padding:5px 15px;
     background: #8B265C ;
     color: white;
@@ -54,7 +69,9 @@ input[type=submit]:hover, input[type=reset]:hover  {
     -webkit-border-radius: 5px;
     border-radius: 5px;
     font-size: 1.1em;
+    text-decoration: none;
 }
+
 
 
 /* ------------------    ICONES DANS LES TABLEAUX    -----------------  */
@@ -97,9 +114,9 @@ footer {
 
 footer a:link, footer a:visited  {
     color: white;
+    text-decoration: none;
     padding: 5px 15px;
     text-align: center;
-    text-decoration: none;
     display: inline-block;
 }
 
@@ -127,4 +144,43 @@ footer input[type=submit]:hover {
     cursor:pointer;
     -webkit-border-radius: 5px;
     border-radius: 5px;
+}
+
+
+/* ------------------    FENETRE POPUP    -----------------  */
+
+{box-sizing: border-box;}
+
+
+/* The popup form - hidden by default */
+.form-popup {
+    display: none;
+    border: 3px solid #f1f1f1;
+    position: fixed;
+    bottom: 250px;
+    left: 300px;
+    z-index: 9;
+}
+
+/* Add styles to the form container */
+.form-container {
+    max-width: 300px;
+    padding: 10px;
+    background-color: #265C8B;
+    color: white;
+}
+
+/* Full-width input fields */
+.form-container input[type=text], .form-container input[type=password] {
+    width: 100%;
+    padding: 15px;
+    margin: 5px 0 22px 0;
+    border: none;
+    background: #f1f1f1;
+}
+
+/* When the inputs get focus, do something */
+.form-container input[type=text]:focus, .form-container input[type=password]:focus {
+    background-color: #dddddd;
+    outline: none;
 }

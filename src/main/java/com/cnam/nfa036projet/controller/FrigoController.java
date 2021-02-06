@@ -4,12 +4,10 @@ package com.cnam.nfa036projet.controller;
 import com.cnam.nfa036projet.model.Frigo;
 import com.cnam.nfa036projet.repository.FrigoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-
 import javax.validation.Valid;
 import java.util.List;
 
@@ -26,7 +24,7 @@ public class FrigoController {
      * LISTE DES FRIGOS EN BASE DE DONNEE
      *
      * READ
-     * <p>
+     *
      */
 
     @GetMapping("/readFrigo")
@@ -60,16 +58,11 @@ public class FrigoController {
 
     @RequestMapping(value = {"/saveFrigo"}, method = RequestMethod.POST)
     public String saveFrigo(@ModelAttribute("aFrigo") Frigo aFrigo, BindingResult bindingResult, Model model) {
-        if (bindingResult.hasErrors()) {
-            model.addAttribute("aFrigo", aFrigo);
-            return "/Frigo/createFrigo";
+        if (bindingResult.hasErrors() || aFrigo == null) {
+            return "/error";
         } else {
-
             frigoRepository.save(aFrigo);
-
-            List<Frigo> frigoList = frigoRepository.findAll();
-            model.addAttribute("frigoList", frigoList);
-            return "/Frigo/readFrigo";
+            return "redirect:readFrigo";
         }
     }
 
@@ -78,7 +71,6 @@ public class FrigoController {
      *
      * UPDATE
      *
-     * A TESTER
      */
 
     @GetMapping("/updateFrigo/{id}")
@@ -90,17 +82,11 @@ public class FrigoController {
 
     @PostMapping("/updateFrigo")
     public String updateFrigo(@Valid Frigo aFrigo, BindingResult result, Model model) {
-        if (result.hasErrors()) {
-            model.addAttribute("frigotList", frigoRepository.findAll());
-            return "/Frigo/readFrigo";
+        if (result.hasErrors() || aFrigo == null) {
+            return "/error";
         }
-        Frigo frigo = frigoRepository.findById(aFrigo.getId()).orElseThrow(() -> new IllegalArgumentException("Invalid frigo id"));
-        frigo.setNomFrigo(aFrigo.getNomFrigo());
-        frigo.setDescFrigo(aFrigo.getDescFrigo());
-        frigoRepository.save(frigo);
-
-        model.addAttribute("frigoList", frigoRepository.findAll());
-        return "/Frigo/readFrigo";
+        frigoRepository.save(aFrigo);
+        return "redirect:readFrigo";
     }
 
     /**
@@ -108,16 +94,35 @@ public class FrigoController {
      *
      * DELETE
      *
-     * A TESTER
      */
-/*
+
+
+    @GetMapping("/verifDeleteFrigo/{id}")
+    public String verifDeleteFrigo(@PathVariable("id") long id, Model model) {
+        Frigo aFrigo = frigoRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Invalid frigo Id:" + id));
+        //Vérif si le frigo est alloué à des températures
+        boolean supr ;
+        if(aFrigo.getRelevesTemp().isEmpty()){
+            supr = true ;
+        } else {
+            supr = false ;
+        }
+        model.addAttribute("aFrigo", aFrigo);
+        model.addAttribute("supr", supr);
+        return "/Frigo/deleteFrigo";
+    }
+
     @GetMapping("/deleteFrigo/{id}")
     public String deleteFrigo(@PathVariable("id") long id, Model model) {
         Frigo aFrigo = frigoRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Invalid frigo Id:" + id));
-        aFrigo.getCategorie().deleteProduit(aProduit);
-        produitRepository.delete(aProduit);
-        model.addAttribute("frigoList", frigoRepository.findAll());
-        return "/Frigo/readFrigo";
+        if(aFrigo != null) {
+            frigoRepository.delete(aFrigo);
+            List<Frigo> frigoList = frigoRepository.findAll();
+            model.addAttribute("frigoList", frigoList);
+            return "/Frigo/readFrigo";
+        } else {
+            return "/error";
+        }
     }
-*/
+
 }

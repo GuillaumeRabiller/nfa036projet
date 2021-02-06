@@ -42,7 +42,7 @@
         <form th:action="@{/saveTemp}"
               th:object="${aTemp}" method="POST">
             <div class="form-group">
-                <label>Choix du frigo</label>
+                <label class="form-label">Choix du frigo</label>
                 <select th:field="*{frigoId}">
                     <option th:each="frigo : *{frigoList}"
                             th:value="${frigo.id}"
@@ -51,8 +51,8 @@
                 <br>
             </div>
             <div class="form-group">
-                <label>Température relevée</label>
-                <input type="text" th:field="*{temperature}" />
+                <label class="form-label">Température relevée</label>
+                <input class="form-control" type="text" th:field="*{temperature}" />
                 <span class="error" th:if="${#fields.hasErrors('temperature')}" th:errors="*{temperature}"></span>
                 <br>
             </div>

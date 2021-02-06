@@ -39,43 +39,44 @@
         <form th:action="@{/saveUtil}"
               th:object="${aUser}" method="POST">
             <div class="form-group">
-                <label>Nom de famille</label>
-                <input type="text" th:field="*{nom}" />
+                <label class="form-label">Nom de famille</label>
+                <input class="form-control" type="text" th:field="*{nom}" />
                 <span class="error" th:if="${#fields.hasErrors('nom')}">Erreur sur le nom</span>
                 <br>
             </div>
             <div class="form-group">
-                <label>Prénom</label>
-                <input type="text" th:field="*{prenom}" />
+                <label class="form-label">Prénom</label>
+                <input class="form-control" type="text" th:field="*{prenom}" />
                 <span class="error" th:if="${#fields.hasErrors('prenom')}" th:errors="*{prenom}"></span>
                 <br>
             </div>
             <div class="form-group">
-                <label>email</label>
-                <input type="text" th:field="*{email}" />
+                <label class="form-label">email</label>
+                <input class="form-control" type="text" th:field="*{email}" />
                 <span class="error" th:if="${#fields.hasErrors('email')}">Erreur sur le mail</span>
                 <br>
             </div>
             <div class="form-group">
-                <label>login</label>
-                <input type="text"  th:field="*{login}" />
+                <label class="form-label">login</label>
+                <input class="form-control" type="text"  th:field="*{login}" />
                 <span class="error" th:if="${#fields.hasErrors('login')}">Erreur sur le login</span>
                 <br>
             </div>
             <div class="form-group">
-                <label>password</label>
-                <input type="text" th:field="*{password}" />
+                <label class="form-label">password</label>
+                <input class="form-control" type="text" th:field="*{password}" />
                 <span class="error" th:if="${#fields.hasErrors('password')}">Erreur sur le mdp</span>
                 <br>
             </div>
             <div class="form-group">
-                <label>role</label>
-                <input type="text" th:field="*{role}" />
+                <label class="form-label">role</label>
+                <input class="form-control" type="text" th:field="*{role}" />
                 <span class="error" th:if="${#fields.hasErrors('role')}">Erreur sur le role</span>
                 <br>
             </div>
                 <input type="submit" value="Submit" />
                 <input type="reset" value="Reset" />
+                <a class="backbutton" th:href="@{/readUtil}" role="button"><i class="fas fa-home"></i> Retour </a>
         </form>
    </div>
 

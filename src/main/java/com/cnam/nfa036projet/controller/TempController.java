@@ -73,9 +73,13 @@ public class TempController {
 
         }
         //Retour à l'index
-        model.addAttribute("stockList", stockService.listeStock());
+     /*   model.addAttribute("stockList", stockService.listeStock());
         model.addAttribute("tempList", frigoService.lastTempList());
-        return "/index";
+        //Gestion du popup renseignement temp
+        CreateTemp aNewTemp = new CreateTemp();
+        aNewTemp.setFrigoList(frigoRepository.findAll());
+        model.addAttribute("aTemp", aNewTemp);*/
+        return "redirect:index";
     }
 
 

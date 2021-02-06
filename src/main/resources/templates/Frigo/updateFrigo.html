@@ -44,20 +44,20 @@
                 <br>
             </div>
             <div class="form-group">
-                <label>Nom du frigo</label>
-                <input type="text" th:field="*{nomFrigo}" />
+                <label class="form-label">Nom du frigo</label>
+                <input class="form-control" type="text" th:field="*{nomFrigo}" />
                 <span class="error" th:if="${#fields.hasErrors('nomFrigo')}">Erreur sur le nom</span>
                 <br>
             </div>
             <div class="form-group">
-                <label>Description</label>
-                <input type="text" th:field="*{descFrigo}" />
+                <label class="form-label">Description</label>
+                <input class="form-control" type="text" th:field="*{descFrigo}" />
                 <span class="error" th:if="${#fields.hasErrors('descFrigo')}">Erreur</span>
                 <br>
             </div>
 
             <input type="submit" value="Update frigo" />
-            <input type="reset" value="Reset" />
+            <a class="backbutton" th:href="@{/readFrigo}" role="button"><i class="fas fa-home"></i> Retour </a>
         </form>
     </div>
 

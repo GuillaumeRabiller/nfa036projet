@@ -34,12 +34,13 @@
 
 
     <h1>Liste des frigos :</h1>
-    <div class="row">
-        <table border="1" class="table table-striped table-hover">
+    <div class="row" style="width: 95% ; padding-left: 40px ">
+        <table border="1" class="table table-striped table-hover table-sm">
             <tr>
                 <th>id</th>
                 <th>Nom du Frigo</th>
                 <th>Description</th>
+                <th>Relevés T°</th>
                 <th sec:authorize="hasRole('ADMIN')">Editer</th>
                 <th sec:authorize="hasRole('ADMIN')">Supprimer</th>
             </tr>
@@ -47,8 +48,9 @@
                 <td th:text="${frigo.id}"></td>
                 <td th:text="${frigo.nomFrigo}"></td>
                 <td th:text="${frigo.descFrigo}"></td>
+                <td><a th:href="@{/historiqueFrigo/{id}(id=${frigo.id})}">Historique</td>
                 <td sec:authorize="hasRole('ADMIN')"><a th:href="@{/updateFrigo/{id}(id=${frigo.id})}"><i class="far fa-edit"></i></a></td>
-                <td sec:authorize="hasRole('ADMIN')"><a th:href="@{/deleteFrigo/{id}(id=${frigo.id})}"><i class="far fa-trash-alt"></i></a></td>
+                <td sec:authorize="hasRole('ADMIN')"><a th:href="@{/verifDeleteFrigo/{id}(id=${frigo.id})}"><i class="far fa-trash-alt"></i></a></td>
             </tr>
         </table>
     </div>

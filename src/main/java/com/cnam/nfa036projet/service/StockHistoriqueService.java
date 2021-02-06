@@ -11,6 +11,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 @Service
@@ -40,9 +41,9 @@ public class StockHistoriqueService {
                 stockList.add(aStock);
             }
         }
-        //Tri de la liste selon ID stock
-        //A FAIRE
-        //
+        Collections.sort(stockList, (stock1, stock2)->{
+            return (int) (stock1.getIdProduit()-stock2.getIdProduit());
+        });
 
         return stockList ;
     }

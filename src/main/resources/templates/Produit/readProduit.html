@@ -34,8 +34,8 @@
 
 
     <h1>Liste des produits :</h1>
-    <div class="row">
-        <table border="1" class="table table-striped table-hover">
+    <div class="row" style="width: 95% ; padding-left: 40px ">
+        <table border="1" class="table table-striped table-hover table-sm">
             <tr>
                 <th>id</th>
                 <th>Nom du Produit</th>
@@ -54,7 +54,7 @@
                 <td th:text="${produit.utilisateur}"></td>
                 <td th:text="${produit.categorie.getNomCategorie()}"></td>
                 <td sec:authorize="hasRole('ADMIN')"><a th:href="@{/updateProduit/{id}(id=${produit.id})}"><i class="far fa-edit"></i></a></td>
-                <td sec:authorize="hasRole('ADMIN')"><a th:href="@{/deleteProduit/{id}(id=${produit.id})}"><i class="far fa-trash-alt"></i></a></td>
+                <td sec:authorize="hasRole('ADMIN')"><a th:href="@{/verifDeleteProduit/{id}(id=${produit.id})}"><i class="far fa-trash-alt"></i></a></td>
             </tr>
         </table>
     </div>

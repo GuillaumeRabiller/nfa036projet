@@ -55,12 +55,12 @@ public class StockController {
     @Autowired
     private UtilisateurService userService ;
 
-
+/*
     public Statut findByNomStatut(String nomStatut){
         Statut statut = statutRepository.findByNomStatut(nomStatut);
         return statut ;
     }
-
+*/
 
 
 
@@ -160,7 +160,7 @@ public class StockController {
                 historique.setProduit(product.getNomProduit());
                 historique.setCategorie(product.getCategorie().getNomCategorie());
             });
-            Statut statut = findByNomStatut("En Stock");
+            Statut statut = statutRepository.findByNomStatut("En Stock");
             statut.addStock(stock);
             historique.setStatut(statut.getNomStatut());
             historique.setUtilisateur(userService.getNomUser());
@@ -204,7 +204,7 @@ public class StockController {
         }
         Stock stock = stockRepository.findById(aStock.getId()).orElseThrow(() -> new IllegalArgumentException("Invalid stock id"));
         //Recupération du Statut entré dans le formulaire
-        Statut statut = findByNomStatut(aStock.getStatut());
+        Statut statut = statutRepository.findByNomStatut(aStock.getStatut());
 
         //Si le statut retire le produit du stock, on le supprime du Stock
         if( statut.getNomStatut().equals("Retiré") ||

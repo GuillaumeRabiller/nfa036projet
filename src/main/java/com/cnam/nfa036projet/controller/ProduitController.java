@@ -3,19 +3,15 @@ package com.cnam.nfa036projet.controller;
 import com.cnam.nfa036projet.form.UpdateProduitForm;
 import com.cnam.nfa036projet.model.Categorie;
 import com.cnam.nfa036projet.model.Produit;
-import com.cnam.nfa036projet.model.Utilisateur;
-import com.cnam.nfa036projet.model.UtilisateurDetails;
 import com.cnam.nfa036projet.repository.CategorieRepository;
 import com.cnam.nfa036projet.repository.ProduitRepository;
-
-import com.cnam.nfa036projet.repository.UtilisateurRepository;
+import com.cnam.nfa036projet.service.ProduitService;
+import com.cnam.nfa036projet.service.UtilisateurService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-
 import javax.validation.Valid;
 import java.time.LocalDate;
 import java.util.*;
@@ -23,36 +19,16 @@ import java.util.*;
 @Controller
 public class ProduitController {
 
-    //Création d'un ProduitRepository
+    //Création des Repository et Services
 
     @Autowired
     private ProduitRepository produitRepository ;
 
-    //Création d'un utilisateurRepository (pour forcer un utilisateur à la création d'un produit)
-
-    @Autowired
-    private UtilisateurRepository utilisateurRepository ;
-
-    //Création d'un categorieRepository
-
     @Autowired
     private CategorieRepository categorieRepository ;
 
-    /*
-     *Méthode pour récupérer le nom + prénom de l'Utilisateur connecté
-     *
-     */
-
-    public String getNomUser(){
-        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-
-        if (principal instanceof UtilisateurDetails) {
-            return ((UtilisateurDetails)principal).getNomPrenom();
-        } else {
-            return principal.toString();
-        }
-    }
-
+    @Autowired
+    private ProduitService produitService;
 
     /**
      * LISTE DES PRODUITS EN BASE DE DONNEE
@@ -73,7 +49,7 @@ public class ProduitController {
      *
      * CREATE
      *
-     * A TEST
+     *
      */
 
     @RequestMapping(value = {"/createProduit"}, method = RequestMethod.GET)
@@ -90,31 +66,16 @@ public class ProduitController {
      *
      * SAVE
      *
-     * A TEST
      */
 
     @RequestMapping(value = {"/saveProduit"}, method = RequestMethod.POST)
     public String saveProduit(@ModelAttribute("aProduit") Produit aProduit, BindingResult bindingResult, Model model) {
-        if (bindingResult.hasErrors()) {
-            model.addAttribute("aProduit", aProduit);
-            return "/Produit/createProduit";
+        if (bindingResult.hasErrors() || aProduit == null) {
+            return "/error";
         } else {
-            aProduit.setDateCreation(LocalDate.now());
-
-            aProduit.setUtilisateur(getNomUser());
-
-            //Recupération de la categorie
-            Optional<Categorie> cat = categorieRepository.findById(Long.valueOf(aProduit.getCategorieId()));
-            cat.ifPresent(categorie -> {
-                categorie.addProduit(aProduit);
-            });
-
-            produitRepository.save(aProduit);
-
-            List<Produit> produitList = produitRepository.findAll();
-
-            model.addAttribute("produitList", produitList);
-            return "/Produit/readProduit";
+            Produit aProduct = produitService.createProd(aProduit) ;
+            produitRepository.save(aProduct);
+            return "redirect:readProduit";
         }
     }
 
@@ -123,7 +84,6 @@ public class ProduitController {
      *
      * UPDATE
      *
-     * A TESTER
      */
 
     @GetMapping("/updateProduit/{id}")
@@ -138,22 +98,12 @@ public class ProduitController {
 
     @PostMapping("/updateProduit")
     public String updateProduit(@Valid UpdateProduitForm aProduit, BindingResult result, Model model) {
-        if (result.hasErrors()) {
-            model.addAttribute("produitList", produitRepository.findAll());
-            return "/Produit/readProduit";
+        if (result.hasErrors() || aProduit == null) {
+            return "/error";
         }
-        Produit produit = produitRepository.findById(aProduit.getId()).orElseThrow(() -> new IllegalArgumentException("Invalid produit id"));
-        //Recupération de la categorie
-        Optional<Categorie> cat = categorieRepository.findById(aProduit.getCategorieId());
-        cat.ifPresent(categorie -> {
-            produit.changeCategorie(categorie);
-        });
-        produit.setNomProduit(aProduit.getNomProduit());
-        produit.setDureeConservation(aProduit.getDureeConservation());
+        Produit produit = produitService.changeProd(aProduit);
         produitRepository.save(produit);
-
-        model.addAttribute("produitList", produitRepository.findAll());
-        return "/Produit/readProduit";
+        return "redirect:readProduit";
     }
 
     /**
@@ -161,16 +111,34 @@ public class ProduitController {
      *
      * DELETE
      *
-     * A TESTER
      */
+
+    @GetMapping("/verifDeleteProduit/{id}")
+    public String verifDeleteProduit(@PathVariable("id") long id, Model model) {
+        Produit aProduit = produitRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Invalid produit Id:" + id));
+        //Vérification si le produit est alloué à un stock
+        boolean supr ;
+        if(aProduit.getStocks().isEmpty()){
+            supr = true ;
+        } else {
+            supr = false ;
+        }
+        model.addAttribute("aProduit", aProduit) ;
+        model.addAttribute("supr", supr);
+        return "/Produit/deleteProduit";
+    }
 
     @GetMapping("/deleteProduit/{id}")
     public String deleteProduit(@PathVariable("id") long id, Model model) {
         Produit aProduit = produitRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Invalid produit Id:" + id));
-        aProduit.getCategorie().deleteProduit(aProduit);
-        produitRepository.delete(aProduit);
-        model.addAttribute("produitList", produitRepository.findAll());
-        return "/Produit/readProduit";
+        if(aProduit != null){
+            aProduit.getCategorie().deleteProduit(aProduit);
+            produitRepository.delete(aProduit);
+            model.addAttribute("produitList", produitRepository.findAll());
+            return "/Produit/readProduit";
+        } else {
+            return "/error";
+        }
     }
 
 }

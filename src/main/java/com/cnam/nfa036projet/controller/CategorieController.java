@@ -16,7 +16,7 @@ public class CategorieController {
 
     //Creation du Repository
     @Autowired
-   private CategorieRepository categorieRepository ;
+    private CategorieRepository categorieRepository ;
 
     /**
      * LISTE DES CATEGORIES EN BASE DE DONNEE
@@ -58,14 +58,11 @@ public class CategorieController {
 
     @RequestMapping(value = {"/saveCategorie"}, method = RequestMethod.POST)
     public String saveCategorie(@ModelAttribute("aCategorie") Categorie aCategorie, BindingResult bindingResult, Model model) {
-        if (bindingResult.hasErrors()) {
-            model.addAttribute("aCategorie", aCategorie);
-            return "/Categorie/createCategorie";
+        if (bindingResult.hasErrors() || aCategorie == null) {
+            return "/error";
         } else {
             categorieRepository.save(aCategorie);
-            List<Categorie> categorieList = categorieRepository.findAll();
-            model.addAttribute("categorieList", categorieList);
-            return "/Categorie/readCategorie";
+            return "redirect:readCategorie";
         }
     }
 
@@ -80,19 +77,17 @@ public class CategorieController {
     @GetMapping("/updateCategorie/{id}")
     public String updateCategorieFormulaire(@PathVariable("id") long id, Model model) {
         Categorie aCategorie = categorieRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Invalid categorie id:" + id));
-
         model.addAttribute("aCategorie", aCategorie);
         return "/Categorie/updateCategorie";
     }
 
     @PostMapping("/updateCategorie")
     public String updateCategorie(@Valid Categorie aCategorie, BindingResult result, Model model) {
-        if (result.hasErrors()) {
-            return "/Categorie/updateCategorie";
+        if (result.hasErrors() || aCategorie == null) {
+            return "/error";
         }
         categorieRepository.save(aCategorie);
-        model.addAttribute("categorieList", categorieRepository.findAll());
-        return "/Categorie/readCategorie";
+        return "redirect:readCategorie";
     }
 
     /**
@@ -103,12 +98,32 @@ public class CategorieController {
      * FONCTIONNEL
      */
 
+    @GetMapping("/verifDeleteCategorie/{id}")
+    public String verifDeleteCategorie(@PathVariable("id") long id, Model model) {
+        Categorie aCategorie = categorieRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Invalid categorie Id:" + id));
+        boolean supr ;
+        //Vérification si la catégorie est allouée à certains produits
+        if(aCategorie.getProduits().isEmpty()){
+            supr = true;
+        } else {
+            supr = false ;
+        }
+        model.addAttribute("aCategorie", aCategorie);
+        model.addAttribute("supr", supr);
+        return "/Categorie/deleteCategorie";
+    }
+
     @GetMapping("/deleteCategorie/{id}")
     public String deleteCategorie(@PathVariable("id") long id, Model model) {
         Categorie aCategorie = categorieRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Invalid categorie Id:" + id));
-        categorieRepository.delete(aCategorie);
-        model.addAttribute("categorieList", categorieRepository.findAll());
-        return "/Categorie/readCategorie";
+        if(aCategorie != null) {
+            categorieRepository.delete(aCategorie);
+            List<Categorie> categorieList = categorieRepository.findAll();
+            model.addAttribute("categorieList", categorieList);
+            return "/Categorie/readCategorie";
+        } else {
+            return "/error";
+        }
     }
 
 

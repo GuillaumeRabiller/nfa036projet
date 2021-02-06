@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="author" content="Guillaume Rabiller" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="Page suppression frigo">
+
+    <!-- CSS + Bootstrap CSS -->
+    <link rel="stylesheet" th:href="@{/styles/css/style.css}"/>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Open+Sans&family=Roboto&display=swap">
+    <script src="https://kit.fontawesome.com/610665bae1.js" crossorigin="anonymous"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+
+    <title>Suppression frigo</title>
+</head>
+
+<body class="container">
+
+<!-- ------------------------    HEADER    ---------------------------- -->
+
+<div th:replace="Fragments/header :: header"></div>
+
+<!--  --------------------    MAIN DE LA PAGE     -------------------  -->
+
+
+<br>
+<br>
+
+<div class="row">
+    <h1>Suppression d'un frigo</h1>
+    <br>
+    <div th:if="${supr} == true">
+        Etes-vous sûr de vouloir supprimer le frigo <span th:text="${aFrigo.nomFrigo}"></span>  ?
+        <br>
+        <br>
+        <a class="btn btn-success" th:href="@{/deleteFrigo/{id}(id=${aFrigo.id})}"><i class="fas fa-check"></i> Oui</a>
+        <a class="btn btn-danger" th:href="@{/readFrigo}" role="button"><i class="fas fa-times"></i> Non </a>
+    </div>
+
+    <div th:if="${supr} != true">
+        <br>
+        Le frigo <span th:text="${aFrigo.nomFrigo}"></span> est lié à des températures, sa suppression est impossible.
+        <br>
+        <br>
+        <a class="btn btn-outline-secondary" th:href="@{/readFrigo}" role="button"><i class="fas fa-home"></i> Retour </a>
+    </div>
+
+
+</div>
+
+
+
+</body>
+</html>

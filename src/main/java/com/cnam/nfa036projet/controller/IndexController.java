@@ -1,5 +1,7 @@
 package com.cnam.nfa036projet.controller;
 
+import com.cnam.nfa036projet.form.CreateTemp;
+import com.cnam.nfa036projet.repository.FrigoRepository;
 import com.cnam.nfa036projet.service.FrigoService;
 import com.cnam.nfa036projet.service.StockService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +18,9 @@ public class IndexController {
 
     @Autowired
     private StockService stockService ;
+
+    @Autowired
+    private FrigoRepository frigoRepository;
 
 
     /**
@@ -45,6 +50,12 @@ public class IndexController {
     public String home(Model model) {
         model.addAttribute("stockList", stockService.listeStock());
         model.addAttribute("tempList", frigoService.lastTempList());
+
+        //Gestion du popup renseignement temp
+        CreateTemp aTemp = new CreateTemp();
+        aTemp.setFrigoList(frigoRepository.findAll());
+        model.addAttribute("aTemp", aTemp);
+
         return "/index";
     }
 
