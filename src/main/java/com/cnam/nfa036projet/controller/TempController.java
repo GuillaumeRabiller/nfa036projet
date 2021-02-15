@@ -5,8 +5,6 @@ import com.cnam.nfa036projet.form.CreateTemp;
 import com.cnam.nfa036projet.model.*;
 import com.cnam.nfa036projet.repository.FrigoRepository;
 import com.cnam.nfa036projet.repository.ReleveTempRepository;
-import com.cnam.nfa036projet.service.FrigoService;
-import com.cnam.nfa036projet.service.StockService;
 import com.cnam.nfa036projet.service.UtilisateurService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -29,13 +27,6 @@ public class TempController {
 
     @Autowired
     UtilisateurService userService ;
-
-    @Autowired
-    private FrigoService frigoService ;
-
-    @Autowired
-    private StockService stockService ;
-
 
 
     @RequestMapping(value = {"/createTemp"}, method = RequestMethod.GET)
@@ -72,13 +63,7 @@ public class TempController {
 
 
         }
-        //Retour à l'index
-     /*   model.addAttribute("stockList", stockService.listeStock());
-        model.addAttribute("tempList", frigoService.lastTempList());
-        //Gestion du popup renseignement temp
-        CreateTemp aNewTemp = new CreateTemp();
-        aNewTemp.setFrigoList(frigoRepository.findAll());
-        model.addAttribute("aTemp", aNewTemp);*/
+
         return "redirect:index";
     }
 

@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="author" content="Guillaume Rabiller" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="Page formulaire création produit en stock">
+    <meta name="description" content="Page choix du produit">
 
     <!-- CSS + Bootstrap CSS -->
     <link rel="stylesheet" th:href="@{/styles/css/style.css}"/>
@@ -12,7 +12,7 @@
     <script src="https://kit.fontawesome.com/610665bae1.js" crossorigin="anonymous"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
 
-    <title>Formulaire création produit en stock</title>
+    <title>Choix du produit à entrer en stock</title>
 </head>
 
 <body class="container">
@@ -35,11 +35,11 @@
     <div class="row">
         <h1>Ajout d'un Produit en Stock</h1>
         <br>
-        <h3>Choix de la catégorie :</h3>
+        <h3>Choix du produit :</h3>
 
         <table border="1" class="table table-striped table-hover table-sm">
-            <tr th:each="categorie:${categories}"  style="cursor:pointer" th:some-field="${categorie.id}"  onclick="rowClicked(this.getAttribute('some-field'))">
-                <td th:text="${categorie.nomCategorie}"></td>
+            <tr th:each="produit:${listProduits}"  style="cursor:pointer" th:some-field="${produit.id}"  onclick="rowClicked(this.getAttribute('some-field'))">
+                <td th:text="${produit.nomProduit}"></td>
             </tr>
         </table>
     </div>
@@ -49,7 +49,7 @@
 
     <script>
         function rowClicked(id) {
-            location.href = "/chooseProduct/" + id;
+            location.href = "/saveStock/" + id;
         }
     </script>
 

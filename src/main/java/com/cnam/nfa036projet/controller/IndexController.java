@@ -27,8 +27,6 @@ public class IndexController {
      * SPRING SECURITY
      *
      * LOGIN PAGE
-     *
-     * NON UTILISE POUR LE MOMENT
      */
 
     @RequestMapping(value = {"/login"}, method = RequestMethod.GET)

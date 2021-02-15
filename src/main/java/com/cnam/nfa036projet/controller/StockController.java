@@ -7,26 +7,16 @@ import com.cnam.nfa036projet.repository.*;
 import com.cnam.nfa036projet.service.*;
 import com.lowagie.text.DocumentException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import org.thymeleaf.TemplateEngine;
-import org.thymeleaf.context.Context;
-import org.thymeleaf.templatemode.TemplateMode;
-import org.thymeleaf.templateresolver.ClassLoaderTemplateResolver;
-import org.w3c.tidy.Tidy;
-import org.xhtmlrenderer.pdf.ITextRenderer;
-
 import javax.validation.Valid;
 import java.io.*;
-import java.nio.file.FileSystems;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.time.temporal.ChronoUnit;
-import java.util.*;
+import java.util.List;
 
 
 @Controller
@@ -47,6 +37,9 @@ public class StockController {
     private StockHistoriqueRepository stockHistoriqueRepository ;
 
     @Autowired
+    private CategorieRepository categorieRepository ;
+
+    @Autowired
     private StockService stockService ;
 
     @Autowired
@@ -54,14 +47,6 @@ public class StockController {
 
     @Autowired
     private UtilisateurService userService ;
-
-/*
-    public Statut findByNomStatut(String nomStatut){
-        Statut statut = statutRepository.findByNomStatut(nomStatut);
-        return statut ;
-    }
-*/
-
 
 
     /**
@@ -90,8 +75,8 @@ public class StockController {
 
     @PostMapping("/readHistoriqueStock")
     public String readHistorique(@ModelAttribute("dateStock") DateStockForm dateHistorique, BindingResult bindingResult, Model model){
-        if(bindingResult.hasErrors()){
-            return readStock(model);
+        if(bindingResult.hasErrors() || dateHistorique == null){
+            return "/error";
         } else {
             model.addAttribute("historiqueList", stockHistoriqueService.historiqueStock(LocalDate.parse(dateHistorique.getDate())));
             DateStockForm dateStock = new DateStockForm();
@@ -111,7 +96,7 @@ public class StockController {
 
     @PostMapping("/readHistoriqueStockById")
     public String readHistoriqueById(@ModelAttribute("dateStock") DateStockForm dateHistorique, BindingResult bindingResult, Model model){
-        if(bindingResult.hasErrors()){
+        if(bindingResult.hasErrors() || dateHistorique == null){
             return readStock(model);
         } else {
             model.addAttribute("historiqueList", stockHistoriqueService.historiqueStockById(dateHistorique.getId()));
@@ -131,10 +116,22 @@ public class StockController {
 
     @RequestMapping(value = {"/createStock"}, method = RequestMethod.GET)
     public String createStock(Model model) {
-        CreateStockForm aStock = new CreateStockForm();
-        aStock.setListProduit(produitRepository.findAll());
-        model.addAttribute("aStock", aStock);
+        List<Categorie> categorieList = categorieRepository.findAll();
+        model.addAttribute("categories", categorieList);
         return "/Stock/createStock";
+    }
+
+    @RequestMapping(value = {"/chooseProduct/{id}"}, method = RequestMethod.GET)
+    public String chooseProduct(@PathVariable("id") long id, Model model) {
+        Categorie aCategorie = categorieRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Invalid categorie Id:" + id));
+        List<Produit>listProduits ;
+        if(aCategorie != null) {
+            listProduits = aCategorie.getProduits();
+        } else {
+            return "/error";
+        }
+        model.addAttribute("listProduits", listProduits);
+        return "/Stock/chooseProduct";
     }
 
 
@@ -145,26 +142,14 @@ public class StockController {
      *
      */
 
-    @RequestMapping(value = {"/saveStock"}, method = RequestMethod.POST)
-    public String saveStock(@ModelAttribute("aStock") CreateStockForm aStock, BindingResult bindingResult, Model model) throws IOException, DocumentException {
-        if (bindingResult.hasErrors()) {
-            createStock(model);
+    @RequestMapping(value = {"/saveStock/{id}"}, method = RequestMethod.GET)
+    public String saveStock(@PathVariable("id") long id, Model model) throws IOException, DocumentException {
+        Produit aProduit = produitRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Invalid produit Id:" + id));
+        if (aProduit == null) {
+            return "/error";
         } else {
-            Stock stock = new Stock();
-            StockHistorique historique = new StockHistorique();
-            stock.setDateEntree(LocalDateTime.now());
-            historique.setDateMouvementStock(LocalDateTime.now());
-            Optional<Produit> produit = produitRepository.findById(aStock.getProduitId());
-            produit.ifPresent(product -> {
-                product.addStock(stock);
-                historique.setProduit(product.getNomProduit());
-                historique.setCategorie(product.getCategorie().getNomCategorie());
-            });
-            Statut statut = statutRepository.findByNomStatut("En Stock");
-            statut.addStock(stock);
-            historique.setStatut(statut.getNomStatut());
-            historique.setUtilisateur(userService.getNomUser());
-
+            Stock stock = stockService.enterStock(aProduit);
+            StockHistorique historique = stockHistoriqueService.enterStockHistorique(aProduit);
             stockRepository.save(stock);
             historique.setIdProduit(stock.getId());
             stockHistoriqueRepository.save(historique);
@@ -178,7 +163,10 @@ public class StockController {
             EtiquetteService.generatePdfFromHtml (templateHtml) ;
         }
         //Retour à la liste en Stock
-        return readStock(model);
+        model.addAttribute("stockList", stockService.listeStock());
+        DateStockForm dateStock = new DateStockForm();
+        model.addAttribute("dateStock",dateStock);
+        return "/Stock/readStock";
     }
 
     /**
@@ -198,9 +186,8 @@ public class StockController {
 
     @PostMapping("/updateStock")
     public String updateStock(@Valid UpdateStockForm aStock, BindingResult result, Model model) {
-        if (result.hasErrors()) {
-            //retour à la liste En Stock
-            return readStock(model);
+        if (result.hasErrors() || aStock == null) {
+            return "/error";
         }
         Stock stock = stockRepository.findById(aStock.getId()).orElseThrow(() -> new IllegalArgumentException("Invalid stock id"));
         //Recupération du Statut entré dans le formulaire
@@ -228,7 +215,7 @@ public class StockController {
         historique.setCategorie(stock.getProduit().getCategorie().getNomCategorie());
         stockHistoriqueRepository.save(historique);
 
-        return readStock(model);
+        return "redirect:readStock";
     }
 
 

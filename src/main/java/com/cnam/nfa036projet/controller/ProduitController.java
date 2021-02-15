@@ -6,14 +6,12 @@ import com.cnam.nfa036projet.model.Produit;
 import com.cnam.nfa036projet.repository.CategorieRepository;
 import com.cnam.nfa036projet.repository.ProduitRepository;
 import com.cnam.nfa036projet.service.ProduitService;
-import com.cnam.nfa036projet.service.UtilisateurService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
-import java.time.LocalDate;
 import java.util.*;
 
 @Controller

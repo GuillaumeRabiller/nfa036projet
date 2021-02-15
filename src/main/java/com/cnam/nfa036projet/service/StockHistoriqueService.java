@@ -1,12 +1,16 @@
 package com.cnam.nfa036projet.service;
 
+import com.cnam.nfa036projet.form.CreateStockForm;
 import com.cnam.nfa036projet.form.HistoriqueForm;
+import com.cnam.nfa036projet.model.Produit;
+import com.cnam.nfa036projet.model.Statut;
 import com.cnam.nfa036projet.model.StockHistorique;
+import com.cnam.nfa036projet.repository.ProduitRepository;
+import com.cnam.nfa036projet.repository.StatutRepository;
 import com.cnam.nfa036projet.repository.StockHistoriqueRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
@@ -14,12 +18,22 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+
 @Service
 @Transactional
 public class StockHistoriqueService {
 
     @Autowired
     private StockHistoriqueRepository stockHistoriqueRepository ;
+
+    @Autowired
+    private ProduitRepository produitRepository ;
+
+    @Autowired
+    private StatutRepository statutRepository ;
+
+    @Autowired
+    private UtilisateurService userService ;
 
     //HISTORIQUE DES STOCKS SELON UNE DATE
 
@@ -74,6 +88,17 @@ public class StockHistoriqueService {
         //
 
         return stockList ;
+    }
+
+    public StockHistorique enterStockHistorique(Produit produit) {
+        StockHistorique historique = new StockHistorique();
+        historique.setDateMouvementStock(LocalDateTime.now());
+        historique.setProduit(produit.getNomProduit());
+        historique.setCategorie(produit.getCategorie().getNomCategorie());
+        Statut statut = statutRepository.findByNomStatut("En Stock");
+        historique.setStatut(statut.getNomStatut());
+        historique.setUtilisateur(userService.getNomUser());
+        return historique ;
     }
 
 

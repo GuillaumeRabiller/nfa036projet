@@ -53,7 +53,7 @@
                 <td th:text="${utilisateur.login}"></td>
                 <td th:text="${utilisateur.role}"></td>
                 <td sec:authorize="hasRole('ADMIN')"><a th:href="@{/updateUtil/{id}(id=${utilisateur.id})}"><i class="far fa-edit"></i></a></td>
-                <td sec:authorize="hasRole('ADMIN')"><a th:href="@{/deleteUtil/{id}(id=${utilisateur.id})}"><i class="far fa-trash-alt"></i></a></td>
+                <td sec:authorize="hasRole('ADMIN')"><a th:href="@{/verifDeleteUtil/{id}(id=${utilisateur.id})}"><i class="far fa-trash-alt"></i></a></td>
             </tr>
         </table>
     </div>

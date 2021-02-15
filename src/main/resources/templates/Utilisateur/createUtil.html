@@ -52,7 +52,7 @@
             </div>
             <div class="form-group">
                 <label class="form-label">email</label>
-                <input class="form-control" type="text" th:field="*{email}" />
+                <input class="form-control" type="email" th:field="*{email}" />
                 <span class="error" th:if="${#fields.hasErrors('email')}">Erreur sur le mail</span>
                 <br>
             </div>

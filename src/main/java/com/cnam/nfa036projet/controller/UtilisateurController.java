@@ -3,8 +3,8 @@ package com.cnam.nfa036projet.controller;
 import com.cnam.nfa036projet.form.UpdateUtilForm;
 import com.cnam.nfa036projet.model.Utilisateur;
 import com.cnam.nfa036projet.repository.UtilisateurRepository;
+import com.cnam.nfa036projet.service.UtilisateurService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,17 +18,13 @@ import java.util.List;
 public class UtilisateurController {
 
 
-    //Injection via messages.properties
-    @Value("${welcome.message}")
-    private String welcomeMessage;
-
-    @Value("${error.message}")
-    private String errorMessage;
-
     //Création de l'utilisateur Repository
 
     @Autowired
     private UtilisateurRepository utilisateurRepository;
+
+    @Autowired
+    private UtilisateurService utilisateurService;
 
     /**
      * LISTE DES UTILISATEURS EN BASE DE DONNEE
@@ -70,17 +66,14 @@ public class UtilisateurController {
 
     @RequestMapping(value = {"/saveUtil"}, method = RequestMethod.POST)
     public String saveUtilisateur(@ModelAttribute("aUser") Utilisateur aUser, BindingResult bindingResult, Model model) {
-        if (bindingResult.hasErrors()) {
-            model.addAttribute("aUser", aUser);
-            return "/Utilisateur/createUtil";
+        if (bindingResult.hasErrors() || aUser == null) {
+            return "/error";
         } else {
             BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
             String hashedPassword = passwordEncoder.encode(aUser.getPassword());
             aUser.setPassword(hashedPassword);
             utilisateurRepository.save(aUser);
-            List<Utilisateur> userList = utilisateurRepository.findAll();
-            model.addAttribute("userList", userList);
-            return "/Utilisateur/readUtil";
+            return "redirect:readUtil";
         }
     }
 
@@ -102,19 +95,12 @@ public class UtilisateurController {
 
     @PostMapping("/updateUtil")
     public String updateUtilisateur( @Valid UpdateUtilForm aUser, BindingResult result, Model model) {
-        if (result.hasErrors()) {
-            return "/Utilisateur/updateUtil";
+        if (result.hasErrors() || aUser == null) {
+            return "/error";
         }
-        Utilisateur utilisateur = utilisateurRepository.findById(aUser.getid()).orElseThrow(() -> new IllegalArgumentException("Invalid user id"));
-        utilisateur.setNom(aUser.getNom());
-        utilisateur.setPrenom(aUser.getPrenom());
-        utilisateur.setEmail(aUser.getEmail());
-        utilisateur.setLogin(aUser.getLogin());
-        utilisateur.setPassword(aUser.getPassword());
-        utilisateur.setRole(aUser.getRole());
+        Utilisateur utilisateur = utilisateurService.updateUser(aUser);
         utilisateurRepository.save(utilisateur);
-        model.addAttribute("userList", utilisateurRepository.findAll());
-        return "/Utilisateur/readUtil";
+        return "redirect:readUtil";
     }
 
     /**
@@ -125,12 +111,23 @@ public class UtilisateurController {
      * FONCTIONNEL
      */
 
+    @GetMapping("/verifDeleteUtil/{id}")
+    public String verifDeleteUtilisateur(@PathVariable("id") long id, Model model) {
+        Utilisateur aUser = utilisateurRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Invalid user Id:" + id));
+        model.addAttribute("aUser", aUser) ;
+        return "/Utilisateur/deleteUtil";
+    }
+
     @GetMapping("/deleteUtil/{id}")
     public String deleteUtilisateur(@PathVariable("id") long id, Model model) {
         Utilisateur aUser = utilisateurRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Invalid user Id:" + id));
-        utilisateurRepository.delete(aUser);
-        model.addAttribute("userList", utilisateurRepository.findAll());
-        return "/Utilisateur/readUtil";
+        if(aUser != null){
+            utilisateurRepository.delete(aUser);
+            model.addAttribute("userList", utilisateurRepository.findAll());
+            return "/Utilisateur/readUtil";
+        } else {
+            return "/error";
+        }
     }
 
 }
