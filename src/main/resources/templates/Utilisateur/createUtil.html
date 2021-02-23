@@ -40,14 +40,14 @@
               th:object="${aUser}" method="POST">
             <div class="form-group">
                 <label class="form-label">Nom de famille</label>
-                <input class="form-control" type="text" th:field="*{nom}" />
+                <input class="form-control" type="text" th:field="*{nom}" th:required th:minlength="2" th:maxlength="30"/>
                 <span class="error" th:if="${#fields.hasErrors('nom')}">Erreur sur le nom</span>
                 <br>
             </div>
             <div class="form-group">
                 <label class="form-label">Prénom</label>
                 <input class="form-control" type="text" th:field="*{prenom}" />
-                <span class="error" th:if="${#fields.hasErrors('prenom')}" th:errors="*{prenom}"></span>
+                <span class="error" th:if="${#fields.hasErrors('prenom')}" th:errors="*{prenom}" th:required th:minlength="2" th:maxlength="30"></span>
                 <br>
             </div>
             <div class="form-group">
@@ -58,13 +58,13 @@
             </div>
             <div class="form-group">
                 <label class="form-label">login</label>
-                <input class="form-control" type="text"  th:field="*{login}" />
+                <input class="form-control" type="text"  th:field="*{login}" th:required th:minlength="6" th:maxlength="15"/>
                 <span class="error" th:if="${#fields.hasErrors('login')}">Erreur sur le login</span>
                 <br>
             </div>
             <div class="form-group">
                 <label class="form-label">password</label>
-                <input class="form-control" type="text" th:field="*{password}" />
+                <input class="form-control" type="text" th:field="*{password}" th:required/>
                 <span class="error" th:if="${#fields.hasErrors('password')}">Erreur sur le mdp</span>
                 <br>
             </div>

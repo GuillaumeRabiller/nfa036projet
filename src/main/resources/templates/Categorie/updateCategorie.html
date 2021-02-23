@@ -44,7 +44,7 @@
             </div>
             <div class="form-group">
                 <label class="form-label">Nom de la catégorie</label>
-                <input class="form-control" type="text" th:field="*{nomCategorie}" />
+                <input class="form-control" type="text" th:field="*{nomCategorie}" th:minlength="3" th:maxlength="64" />
                 <span class="error" th:if="${#fields.hasErrors('nomCategorie')}">Erreur sur le nom</span>
                 <br/>
             </div>

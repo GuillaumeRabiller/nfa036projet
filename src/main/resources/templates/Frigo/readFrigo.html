@@ -48,7 +48,7 @@
                 <td th:text="${frigo.id}"></td>
                 <td th:text="${frigo.nomFrigo}"></td>
                 <td th:text="${frigo.descFrigo}"></td>
-                <td><a th:href="@{/historiqueFrigo/{id}(id=${frigo.id})}">Historique</td>
+                <td><a th:href="@{/historiqueFrigo/{id}(id=${frigo.id})}"><i class="fas fa-history"></i></a></td>
                 <td sec:authorize="hasRole('ADMIN')"><a th:href="@{/updateFrigo/{id}(id=${frigo.id})}"><i class="far fa-edit"></i></a></td>
                 <td sec:authorize="hasRole('ADMIN')"><a th:href="@{/verifDeleteFrigo/{id}(id=${frigo.id})}"><i class="far fa-trash-alt"></i></a></td>
             </tr>

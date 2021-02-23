@@ -42,19 +42,19 @@
               th:object="${aProduit}" method="POST">
             <div class="form-group">
                 <label class="form-label">Nom du produit</label>
-                <input class="form-control" type="text" th:field="*{nomProduit}" />
+                <input class="form-control" type="text" th:field="*{nomProduit}" th:required th:minlength="2" th:maxlength="64"/>
                 <span class="error" th:if="${#fields.hasErrors('nomProduit')}">Erreur sur le nom</span>
                 <br>
             </div>
             <div class="form-group">
                 <label class="form-label">Durée de conservation</label>
-                <input class="form-control" type="number" th:field="*{dureeConservation}" />
+                <input class="form-control" type="number" th:field="*{dureeConservation}" th:required />
                 <span class="error" th:if="${#fields.hasErrors('dureeConservation')}" th:errors="*{dureeConservation}"></span>
                 <br>
             </div>
             <div class="form-group">
                 <label class="form-label">Catégorie</label>
-                <select th:field="*{categorieId}" class="form-select">
+                <select th:field="*{categorieId}" class="form-select" th:required>
                     <option th:each="categorieList : ${categorieList}"
                                 th:value="${categorieList.id}"
                                 th:text="${categorieList.nomCategorie}"/>

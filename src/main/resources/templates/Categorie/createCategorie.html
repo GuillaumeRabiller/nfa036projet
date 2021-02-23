@@ -38,7 +38,7 @@
               th:object="${aCategorie}" method="POST">
             <div class="form-group">
                 <label class="form-label">Nom de la catégorie</label>
-                <input class="form-control" type="text" th:field="*{nomCategorie}" th:required th:minlength="2" th:maxlength="64"/>
+                <input class="form-control" type="text" th:field="*{nomCategorie}" th:required th:minlength="3" th:maxlength="64"/>
                 <span class="error" th:if="${#fields.hasErrors('nomCategorie')}">Erreur sur le nom</span>
                 <br/>
             </div>

@@ -16,11 +16,11 @@ public class Frigo {
     private long id ;
 
     @Column(nullable = false, name = "NOM_FRIGO")
-    @Size(min=2, max=30, message="Taille minimum de {min} et {max} au maximum")
+    @Size(min=3, max=30, message="Taille minimum de {min} et {max} au maximum")
     private String nomFrigo ;
 
     @Column(name = "DESC_FRIGO")
-    @Size(min=2, max=60, message="Taille minimum de {min} et {max} au maximum")
+    @Size(min=2, max=64, message="Taille minimum de {min} et {max} au maximum")
     private String descFrigo ;
 
     @OneToMany(mappedBy = "frigo")

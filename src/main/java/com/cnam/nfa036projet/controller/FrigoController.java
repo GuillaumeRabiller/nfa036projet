@@ -1,7 +1,9 @@
 package com.cnam.nfa036projet.controller;
 
 
+import com.cnam.nfa036projet.form.HistoriqueTemp;
 import com.cnam.nfa036projet.model.Frigo;
+import com.cnam.nfa036projet.model.ReleveTemp;
 import com.cnam.nfa036projet.repository.FrigoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -9,6 +11,8 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
+import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -124,5 +128,29 @@ public class FrigoController {
             return "/error";
         }
     }
+
+    /**
+     * PAGE D HISTORIQUE DE TEMPERATURE D'UN FRIGO
+     *
+     */
+
+    @GetMapping("/historiqueFrigo/{id}")
+    public String historiqueFrigo(@PathVariable("id") long id, Model model) {
+        Frigo frigo = frigoRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Invalid frigo id:" + id));
+        model.addAttribute("nomFrigo", frigo.getNomFrigo());
+        List<HistoriqueTemp> historiqueList = new ArrayList<>();
+        for (ReleveTemp releve: frigo.getRelevesTemp()) {
+            HistoriqueTemp historique = new HistoriqueTemp();
+            historique.setDate(releve.getDateEnregTemp().toLocalDate());
+            historique.setHeure(releve.getDateEnregTemp().toLocalTime().truncatedTo(ChronoUnit.MINUTES));
+            historique.setTemp(releve.getTemperature());
+            historique.setUtilisateur(releve.getNomUtilisateur());
+            historiqueList.add(historique) ;
+        }
+
+        model.addAttribute("tempList", historiqueList) ;
+        return "/Frigo/historiqueFrigo";
+    }
+
 
 }

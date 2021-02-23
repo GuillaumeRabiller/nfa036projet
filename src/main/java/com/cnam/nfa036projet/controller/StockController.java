@@ -194,9 +194,9 @@ public class StockController {
         Statut statut = statutRepository.findByNomStatut(aStock.getStatut());
 
         //Si le statut retire le produit du stock, on le supprime du Stock
-        if( statut.getNomStatut().equals("Retiré") ||
-            statut.getNomStatut().equals("Erreur") ||
-            statut.getNomStatut().equals("Consommé")){
+        if( statut.getNomStatut().equals(Constantes.RETIRE) ||
+            statut.getNomStatut().equals(Constantes.ERREUR) ||
+            statut.getNomStatut().equals(Constantes.CONSOMME)){
             stock.getProduit().deleteStock(stock);
             stock.getStatut().deleteStock(stock);
             stockRepository.delete(stock);

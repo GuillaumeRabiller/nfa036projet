@@ -15,7 +15,7 @@ public class Categorie {
     @Column(name = "ID_CATEGORIE")
     private long id;
 
-    @Size(min=2, max=64)
+    @Size(min=3, max=64)
     @Column(nullable = false, name = "NOM_CATEGORIE")
     private String nomCategorie ;
 

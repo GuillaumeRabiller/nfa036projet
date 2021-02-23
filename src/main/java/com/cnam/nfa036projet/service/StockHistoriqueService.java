@@ -1,6 +1,5 @@
 package com.cnam.nfa036projet.service;
 
-import com.cnam.nfa036projet.form.CreateStockForm;
 import com.cnam.nfa036projet.form.HistoriqueForm;
 import com.cnam.nfa036projet.model.Produit;
 import com.cnam.nfa036projet.model.Statut;
@@ -27,9 +26,6 @@ public class StockHistoriqueService {
     private StockHistoriqueRepository stockHistoriqueRepository ;
 
     @Autowired
-    private ProduitRepository produitRepository ;
-
-    @Autowired
     private StatutRepository statutRepository ;
 
     @Autowired
@@ -49,7 +45,7 @@ public class StockHistoriqueService {
                 String categorie = stock.getCategorie();
                 String statut = stock.getStatut();
                 String utilisateur = stock.getUtilisateur();
-                LocalDateTime dateMouvement = stock.getDateMouvementStock().truncatedTo(ChronoUnit.SECONDS);
+                LocalDateTime dateMouvement = stock.getDateMouvementStock().truncatedTo(ChronoUnit.MINUTES);
 
                 HistoriqueForm aStock = new HistoriqueForm(idProduit, nomProduit, categorie, statut, dateMouvement, utilisateur);
                 stockList.add(aStock);
@@ -77,7 +73,7 @@ public class StockHistoriqueService {
                 String categorie = stock.getCategorie();
                 String statut = stock.getStatut();
                 String utilisateur = stock.getUtilisateur();
-                LocalDateTime dateMouvement = stock.getDateMouvementStock().truncatedTo(ChronoUnit.SECONDS);
+                LocalDateTime dateMouvement = stock.getDateMouvementStock().truncatedTo(ChronoUnit.MINUTES);
 
                 HistoriqueForm aStock = new HistoriqueForm(idProduit, nomProduit, categorie, statut, dateMouvement, utilisateur);
                 stockList.add(aStock);
@@ -95,7 +91,7 @@ public class StockHistoriqueService {
         historique.setDateMouvementStock(LocalDateTime.now());
         historique.setProduit(produit.getNomProduit());
         historique.setCategorie(produit.getCategorie().getNomCategorie());
-        Statut statut = statutRepository.findByNomStatut("En Stock");
+        Statut statut = statutRepository.findByNomStatut(Constantes.ENSTOCK);
         historique.setStatut(statut.getNomStatut());
         historique.setUtilisateur(userService.getNomUser());
         return historique ;

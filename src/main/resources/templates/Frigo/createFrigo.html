@@ -41,13 +41,13 @@
               th:object="${aFrigo}" method="POST">
             <div class="form-group">
                 <label class="form-label">Nom du frigo</label>
-                <input class="form-control" type="text" th:field="*{nomFrigo}" />
+                <input class="form-control" type="text" th:field="*{nomFrigo}" th:required th:minlength="3" th:maxlength="30"/>
                 <span class="error" th:if="${#fields.hasErrors('nomFrigo')}">Erreur sur le nom</span>
                 <br>
             </div>
             <div class="form-group">
                 <label class="form-label">Description</label>
-                <input class="form-control" type="text" th:field="*{descFrigo}" />
+                <input class="form-control" type="text" th:field="*{descFrigo}" th:minlength="2" th:maxlength="64" />
                 <span class="error" th:if="${#fields.hasErrors('descFrigo')}">Erreur sur la description</span>
                 <br>
             </div>

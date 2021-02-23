@@ -25,6 +25,16 @@
     <div class="row">
         <h1>Création d'un Statut</h1>
 
+        <div>
+            ATTENTION, IL Y A 5 STATUTS A CREER POUR LE BON FONCTIONNEMENT DU LOGICIEL :<br/>
+            En Stock <br/>
+            A Contrôler <br/>
+            Retiré <br/>
+            Erreur <br/>
+            Consommé <br/>
+            Merci de respecter l'orthographe et la casse
+        </div>
+
         <form th:action="@{/saveStatut}"
               th:object="${aStatut}" method="POST">
             <div class="form-group">

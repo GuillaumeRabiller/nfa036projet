@@ -57,6 +57,11 @@ public class IndexController {
         return "/index";
     }
 
+    @RequestMapping(value = {"/about"}, method = RequestMethod.GET)
+    public String about() {
+        return "/about";
+    }
+
 
 
 }

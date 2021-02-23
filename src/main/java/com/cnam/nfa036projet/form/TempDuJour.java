@@ -4,9 +4,9 @@ public class TempDuJour {
 
     private String nomFrigo ;
 
-    private float tempMatin ;
+    private float tempMatin = -100.0f ;
 
-    private float tempAprem ;
+    private float tempAprem = -100.0f ;
 
     public TempDuJour() {
     }

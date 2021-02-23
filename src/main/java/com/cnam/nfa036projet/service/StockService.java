@@ -48,12 +48,12 @@ public class StockService {
         for (Stock stock:stocks) {
 
             //MISE A JOUR DU STATUT SI DLC COURTE = INFERIEUR A 24 HEURES + SAUVEGARDE NV STATUT EN BASE + SAUVEGARDE HISTORIQUE
-            LocalDateTime dateEntree = stock.getDateEntree().truncatedTo(ChronoUnit.SECONDS);
+            LocalDateTime dateEntree = stock.getDateEntree().truncatedTo(ChronoUnit.MINUTES);
             LocalDateTime dlc = dateEntree.plusDays(stock.getProduit().getDureeConservation());
-            dlc.truncatedTo(ChronoUnit.SECONDS);
+            dlc.truncatedTo(ChronoUnit.MINUTES);
             long daysBetween = LocalDateTime.now().until(dlc, ChronoUnit.HOURS);
-            if (stock.getStatut().getNomStatut().equals("En Stock") && daysBetween <= 24) {
-                Statut statut = statutRepository.findByNomStatut("A Contrôler");
+            if (stock.getStatut().getNomStatut().equals(Constantes.ENSTOCK) && daysBetween <= 24) {
+                Statut statut = statutRepository.findByNomStatut(Constantes.CONTROLER);
                 stock.changeStatut(statut);
                 stockRepository.save(stock);
 
@@ -90,7 +90,7 @@ public class StockService {
         Stock stock = new Stock();
         stock.setDateEntree(LocalDateTime.now());
         produit.addStock(stock);
-        Statut statut = statutRepository.findByNomStatut("En Stock");
+        Statut statut = statutRepository.findByNomStatut(Constantes.ENSTOCK);
         statut.addStock(stock);
         return stock ;
     }
