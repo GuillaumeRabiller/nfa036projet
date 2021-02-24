@@ -9,6 +9,7 @@
     <!-- CSS + Bootstrap CSS -->
     <link rel="stylesheet" th:href="@{/styles/css/style.css}"/>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Open+Sans&family=Roboto&display=swap">
+    <script src="https://kit.fontawesome.com/610665bae1.js" crossorigin="anonymous"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
 
     <title>A Propos - Tracer restaurant</title>
@@ -30,22 +31,331 @@
     </div>
 
     <div>
-        <p> Auteur : Guillaume Rabiller
+        <p> <br>
+            Auteur : Guillaume Rabiller
             <br>
             Date de réalisation : Nov 2020 -> Mars 2021
             <br>
             Projet CNAM UE NFA036 - Projet
             <br>
             Objectif du Projet : réalisation d'un logiciel de traçage de produits dans un restaurant.
-
-
+            <br>
+            <br>
         </p>
+    </div>
 
 
+    <!--  --------------------    CONTEXTE     -------------------  -->
+
+    <div>
+        <h3>Contexte</h3>
+        <p>Un restaurant souhaite se doter d'une application WEB, lui permettant de tracer les dates limites de consommation
+            de ses produits, ainsi que de suivre les températures de ses frigos.</p>
+        <br>
+        <br>
+    </div>
+
+
+    <!--  --------------------    TECHNOS ET VERSIONS     -------------------  -->
+
+    <div>
+        <h3>Liste des technologies et versions</h3>
+        <table class="table table-hover table-sm">
+            <tr>
+                <th>Technologie</th>
+                <th>Utilisation</th>
+                <th>Version</th>
+            </tr>
+            <tr>
+                <td>IntelliJ IDEA</td>
+                <td>Environnement de développement intégré JAVA</td>
+                <td>2020.3.2</td>
+            </tr>
+            <tr>
+                <td>JAVA SE</td>
+                <td>Langage de Programmation Orienté Objet</td>
+                <td>11</td>
+            </tr>
+            <tr>
+                <td>Spring</td>
+                <td>Framework de développement d'une application Java</td>
+                <td>5.3.1</td>
+            </tr>
+            <tr>
+                <td>Springboot</td>
+                <td>Framework de développement d'une application Java basé sur Spring</td>
+                <td>2.4.0</td>
+            </tr>
+            <tr>
+                <td>Gradle</td>
+                <td>Moteur de production de projet</td>
+                <td>6.6.1</td>
+            </tr>
+            <tr>
+                <td>Spring Data JPA</td>
+                <td>Module d'accès aux bases de données</td>
+                <td>2.4.1</td>
+            </tr>
+            <tr>
+                <td>Thymeleaf</td>
+                <td>Moteur de template pour la génération de vue dans un environement web</td>
+                <td>3.0.11</td>
+            </tr>
+            <tr>
+                <td>Thymeleaf extra Java 8 Time</td>
+                <td>Intégration de l'API Time de Java 8 dans Thymeleaf</td>
+                <td>3.0.4</td>
+            </tr>
+            <tr>
+                <td>Thymeleaf extra SpringSecurity 5</td>
+                <td>Intégration de SpringSecurity dans Thymeleaf</td>
+                <td>3.0.4</td>
+            </tr>
+            <tr>
+                <td>Jakarta validation</td>
+                <td>Méthodes de validation d'une entité par annotation</td>
+                <td>3.0.3</td>
+            </tr>
+            <tr>
+                <td>Spring Security</td>
+                <td>Framework de sécurité léger qui fournit une authentification et un support d'autorisation</td>
+                <td>5.3.1</td>
+            </tr>
+            <tr>
+                <td>Guava</td>
+                <td>Bibliothèque google proposant de nombreux outils pour améliorer les codes des programmes Java</td>
+                <td>30.1-jre</td>
+            </tr>
+            <tr>
+                <td>Flying Saucer PDF</td>
+                <td>Bibliothèque Java pour passage du XML au PDF</td>
+                <td>9.1.20</td>
+            </tr>
+            <tr>
+                <td>Jtidy</td>
+                <td>Bibliothèque Java permettant le portage du HTML vers XML</td>
+                <td>r938</td>
+            </tr>
+            <tr>
+                <td>Database Oracle Express Edition</td>
+                <td>Base de donnée relationnelle</td>
+                <td>18c</td>
+            </tr>
+            <tr>
+                <td>Bootstrap</td>
+                <td>Colelction d'outils utiles à la création de sites et applis web</td>
+                <td>5.0.0</td>
+            </tr>
+            <tr>
+                <td>JavaScript</td>
+                <td>langage de programmation de scripts employé dans les pages web</td>
+                <td>ES2020</td>
+            </tr>
+        </table>
+        <br>
+        <br>
+    </div>
+
+
+    <!--  --------------------    ARCHITECTURE MVC     -------------------  -->
+
+    <div>
+        <h3>Architecture MVC</h3>
+        <br>
+        <img class="img-fluid" th:src="@{/pics/Architecture MVC.jpg}" alt="Architecture" >
+        <br>
+        <br>
     </div>
 
 
 
+    <!--  --------------------    MCD     -------------------  -->
+
+    <div>
+        <h3>Modèle Conceptuel des Données</h3>
+        <br>
+        <img class="img-fluid" th:src="@{/pics/MCD Tracage Produit Restaurant.jpg}" alt="MCD" >
+        <br>
+        <br>
+    </div>
+
+    <!--  --------------------    FONCTIONNALITES ATTENDUES     -------------------  -->
+
+    <div>
+        <h3>Fonctionnalités attendues</h3>
+        <p><i class="far fa-check-square"></i> Réalisé <span class="marge"></span><i class="far fa-plus-square"></i> Ajout supplémentaire <span class="marge"></span> <i class="fas fa-times"></i> Non réalisé</p>
+
+        <table class="table table-hover table-sm">
+            <tr>
+                <td>- Connexion (Login/Mot de passe)</td>
+                <td><i class="far fa-check-square"></i></td>
+            </tr>
+            <tr>
+                <td>- Ajout de produits (ADMIN)</td>
+                <td><i class="far fa-check-square"></i></td>
+            </tr>
+            <tr>
+                <td>- Ajout des utilisateurs (ADMIN)</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><span class="marge">Inscription par l'admin</span></td>
+                <td><i class="far fa-check-square"></i></td>
+            </tr>
+            <tr>
+                <td><span class="marge">Envoi par email</span></td>
+                <td><i class="fas fa-times"></i></td>
+            </tr>
+            <tr>
+                <td><span class="marge">Modification d'un utlisateur par ADMIN</span></td>
+                <td><i class="far fa-plus-square"></i></td>
+            </tr>
+            <tr>
+                <td>- Gestion des catégories par ADMIN (création, édition, suppression)</td>
+                <td><i class="far fa-check-square"></i></td>
+            </tr>
+            <tr>
+                <td>- Gestion des produits par ADMIN (création, édition, suppression)</td>
+                <td><i class="far fa-check-square"></i></td>
+            </tr>
+            <tr>
+                <td>- Ajout produit entrée stock</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><span class="marge">Ajout d'un produit parmi liste de produits référencés</span></td>
+                <td><i class="far fa-check-square"></i></td>
+            </tr>
+            <tr>
+                <td><span class="marge">Chaque ajout de produit génère un identifiant unique</span></td>
+                <td><i class="far fa-check-square"></i></td>
+            </tr>
+            <tr>
+                <td><span class="marge">Etiquette générée avec identifiant et DLC</span></td>
+                <td><i class="far fa-check-square"></i> en PDF</td>
+            </tr>
+            <tr>
+                <td>- Ecran contrôle produits en DLC</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><span class="marge">On retrouve tous les produits en DLC par rapport à la date du jour</span></td>
+                <td><i class="far fa-check-square"></i></td>
+            </tr>
+            <tr>
+                <td><span class="marge">Ces produits doivent être retirés du stock</span></td>
+                <td><i class="far fa-check-square"></i></td>
+            </tr>
+            <tr>
+                <td><span class="marge">Une fois le produit avec statut Retiré, il n'est plus affiché dans le tableau</span></td>
+                <td><i class="far fa-check-square"></i></td>
+            </tr>
+            <tr>
+                <td><span class="marge">L'admin peut voir l'historique des autres jours de contrôle en changeant la date</span></td>
+                <td><i class="far fa-check-square"></i></td>
+            </tr>
+            <tr>
+                <td><span class="marge">Historique en fonction de l'id du produit en stock</span></td>
+                <td><i class="far fa-plus-square"></i></td>
+            </tr>
+            <tr>
+                <td><span class="marge">Chaque mise à jour ou création est tracée par le login et l'heure/date de modif du produit</span></td>
+                <td><i class="far fa-check-square"></i></td>
+            </tr>
+            <tr>
+                <td>- Ecran contrôle température Frigo 1 et 2</td>
+                <td><i class="far fa-check-square"></i></td>
+            </tr>
+            <tr>
+                <td><span class="marge">Historique des températures par frigo</span></td>
+                <td><i class="far fa-plus-square"></i></td>
+            </tr>
+        </table>
+        <br>
+        <br>
+    </div>
+
+    <!--  --------------------    POINTS DE BLOCAGE     -------------------  -->
+
+    <div>
+        <h3>Points de blocage</h3>
+        <br>
+        <p>J'ai débuté le projet en ayant seulement les bases en Java et bases de données. Il m'a fallu découvrir Springboot, toute l'organisation d'un projet, JPA avec le CRUD,
+            Spring Security, la modèle MVC et Thymeleaf, etc... <br>
+            Il fallait donc à chaque fois partir de 0, regarder des tutos et vidéos, se renseigner sur des forums, mettre en pratique, tester puis corriger les problèmes. <br>
+            Ca a été beaucoup de temps passé, mais au final je n'ai pas eu de blocages particuliers, j'ai réussi à tout faire fonctionner, quitte à contourner certrains points si je n'y arrivais pas du premier coup.
+        </p>
+        <br>
+        <br>
+    </div>
+
+
+
+    <!--  --------------------    CE QUE J'AI BIEN FAIT     -------------------  -->
+
+    <div>
+        <h3>Ce qui a été bien fait</h3>
+        <br>
+        <p>
+            Toute mon application fonctionne, les besoins clients sont remplis, le projet est bien structuré, avec des controleurs dédiés, des sous-dossiers pour chaque partie, des classes Service pour simplifier
+            le code à certains endroits. <br>
+            Les mécanismes de sécurité sont en place, avec l'authentification, des rôles dédiés qui modifient la partie Front <br>
+            La partie Front me semble plutôt réussie, avec une ergonomie facilitant les besoins métiers. <br>
+            Page index reprenant les principaux indicateurs métier importants, popup pour la saisie des températures.
+        </p>
+        <br>
+        <br>
+    </div>
+
+
+
+    <!--  --------------------    CE QUE J'AI MAL FAIT    -------------------  -->
+
+    <div>
+        <h3>Ce qui a été mal fait</h3>
+        <br>
+        <p>
+            Le code pourait être encore optimisé à certains endroits. <br>
+            L'envoi d'email n'a pas été mis en place. <br>
+            Les erreurs envoient à une page dédiée, mais sans indication de ce qui a fait planté le logiciel. <br>
+            Pas d'utilisation des tests unitaires. <br>
+            Peu d'utilisation de JavaScript du fait d'une faible connaissance du langage, j'ai dû contourné par d'autres moyens, mais il aurait été intéressant d'approfondir mon apprentissage dessus.
+        </p>
+        <br>
+        <br>
+    </div>
+
+
+
+    <!--  --------------------    APPORT DU PROJET     -------------------  -->
+
+    <div>
+        <h3>Apports du projet</h3>
+        <br>
+        <p>
+            Réalisation d'un projet dans son ensemble, de A à Z, meilleure compréhension du fonctionnement global d'un logiciel, du modèle MVC, et du lien avec une base de données <br>
+            Utilisation de frameworks employés dans le monde du travail, donc réelle expérience pouvant être mise en avant (Spring, SpringSecurity, Git, Thymeleaf)<br>
+            Savoir se renseigner sur une nouvelle fonctionnalité, la mettre en place et la tester <br>
+            Mélanger le back et le front, travailler sur les 2 parties et voir leurs interactions.<br>
+            <br>
+            Très satisfait de ce que j'ai réalisé, j'y ai passé du temps, mais ça valait le coup. Je n'ai pas l'impression d'avoir perdu du temps, mais acquis une réelle expérience,
+            des compétences, j'ai pris un vrai plaisir à faire le projet, même quand je passais des heures à essayer de solutionner quelque chose qui ne fonctionnait pas, ça me conforte
+            dans mon choix de devenir Développeur Logiciel.
+        </p>
+        <br>
+        <br>
+    </div>
+
+
+    <!--  --------------------    SCRIPT BASE DE DONNEES     -------------------  -->
+
+    <div>
+        <h3>Script base de Données</h3>
+
+        <a th:href="@{/bdd/NFA036Projet.sql}">Lien vers le script de la Base de Données</a>
+        <br>
+        <br>
+    </div>
 
 
 

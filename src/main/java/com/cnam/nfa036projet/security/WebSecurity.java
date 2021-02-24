@@ -56,7 +56,7 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
                     .antMatchers("/updateUtil/**", "/createUtil", "/deleteUtil/**", "/readHistoriqueStock",
                             "/createStatut", "/updateStatut", "/updateProduit","/deleteProduit", "/createProduit", "/updateCategorie", "/createCategorie","/deleteCategorie","/createFrigo","/updateFrigo","/deleteFrigo").hasRole("ADMIN")
                     .antMatchers("/", "/index","/about","/readUtil", "/readStock", "/readStatut", "/readProduit", "/readCategorie", "/updateStock","/chooseProduct", "/createStock", "/createTemp","/readFrigo").hasAnyRole("ADMIN", "UTILISATEUR")
-                    .antMatchers( "/login", "/styles/**", "/pics/**", "/error").permitAll()
+                    .antMatchers( "/login", "/styles/**", "/pics/**", "/error", "/bdd/**").permitAll()
                     .anyRequest().authenticated()
                     .and()
                 .formLogin()

@@ -6,6 +6,11 @@ h2 {
     color:#5C8B26;
 }
 
+h3 {
+    color:#8B265D;
+}
+
+
 table {
     border-collapse: collapse;
 }
@@ -36,6 +41,10 @@ table tr td a {
 
 .aligncenter {
     text-align: center ;
+}
+
+.marge {
+    margin-left: 5em;
 }
 
 .btnmenu {

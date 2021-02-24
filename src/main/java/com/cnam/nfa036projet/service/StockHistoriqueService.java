@@ -79,9 +79,7 @@ public class StockHistoriqueService {
                 stockList.add(aStock);
             }
         }
-        //Tri de la liste selon DATE
-        //A FAIRE
-        //
+        stockList.sort((d1,d2) -> d1.getDateMouvement().compareTo(d2.getDateMouvement()));
 
         return stockList ;
     }

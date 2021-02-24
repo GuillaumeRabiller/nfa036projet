@@ -147,6 +147,7 @@ public class FrigoController {
             historique.setUtilisateur(releve.getNomUtilisateur());
             historiqueList.add(historique) ;
         }
+        historiqueList.sort((d1,d2) -> d1.getDate().compareTo(d2.getDate()));
 
         model.addAttribute("tempList", historiqueList) ;
         return "/Frigo/historiqueFrigo";

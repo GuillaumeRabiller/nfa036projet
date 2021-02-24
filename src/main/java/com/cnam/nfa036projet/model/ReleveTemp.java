@@ -8,7 +8,7 @@ public class ReleveTemp {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "ID_STOCK")
+    @Column(name = "ID_TEMP")
     private long id ;
 
     @Column(name = "DATE_ENREG_TEMP", columnDefinition = "TIMESTAMP", nullable = false)

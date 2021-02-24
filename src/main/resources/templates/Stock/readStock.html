@@ -43,14 +43,6 @@
                 <th>DLC</th>
                 <th>Statut</th>
             </tr>
-            <tr th:each="stock:${stockList}" th:if="${stock.colorStatut} == 1" style="cursor:pointer" th:some-field="${stock.id}"  onclick="rowClicked(this.getAttribute('some-field'))">
-                <td th:text="${stock.id}"></td>
-                <td th:text="${stock.nomProduit}"></td>
-                <td th:text="${stock.categorie}"></td>
-                <td th:text="${stock.dateEntree}"></td>
-                <td th:text="${stock.dlc}"></td>
-                <td th:text="${stock.statut}"></td>
-            </tr>
             <tr th:each="stock:${stockList}" th:if="${stock.colorStatut} != 1 " style="cursor:pointer" th:some-field="${stock.id}"  onclick="rowClicked(this.getAttribute('some-field'))">
                 <td th:text="${stock.id}"></td>
                 <td th:text="${stock.nomProduit}"></td>
@@ -58,6 +50,14 @@
                 <td th:text="${stock.dateEntree}"></td>
                 <td th:text="${stock.dlc}"></td>
                 <td th:text="${stock.statut}" th:style="${stock.colorStatut} == 2 ? 'background: #F6A80B' : 'background: #A73000'  " ></td>
+            </tr>
+            <tr th:each="stock:${stockList}" th:if="${stock.colorStatut} == 1" style="cursor:pointer" th:some-field="${stock.id}"  onclick="rowClicked(this.getAttribute('some-field'))">
+                <td th:text="${stock.id}"></td>
+                <td th:text="${stock.nomProduit}"></td>
+                <td th:text="${stock.categorie}"></td>
+                <td th:text="${stock.dateEntree}"></td>
+                <td th:text="${stock.dlc}"></td>
+                <td th:text="${stock.statut}"></td>
             </tr>
         </table>
     </div>
