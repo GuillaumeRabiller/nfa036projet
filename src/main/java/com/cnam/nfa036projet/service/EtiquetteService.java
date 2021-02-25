@@ -9,13 +9,14 @@ import org.thymeleaf.templateresolver.ClassLoaderTemplateResolver;
 import org.w3c.tidy.Tidy;
 import org.xhtmlrenderer.pdf.ITextRenderer;
 import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.FileSystems;
 
 public class EtiquetteService {
 
 
     //Méthode de parsing de l'étiquette
-    public static String parseEtiquetteTemplate(EtiquetteForm etiquette) throws UnsupportedEncodingException {
+    public static String parseEtiquetteTemplate(EtiquetteForm etiquette)  {
         ClassLoaderTemplateResolver templateResolver = new ClassLoaderTemplateResolver();
         templateResolver.setSuffix(".html");
         templateResolver.setTemplateMode(TemplateMode.HTML);
@@ -32,10 +33,8 @@ public class EtiquetteService {
     }
 
     //Méthode de génération de l'étiquette en PDF
-    public static void generatePdfFromHtml(String html) throws DocumentException, IOException {
-        /*File file = File.createTempFile("etiqu", ".pdf");
-        OutputStream outputStream = new FileOutputStream(file) ;
-*/
+    public static void generatePdfFromHtml(String html, long id) throws DocumentException, IOException {
+
         String baseUrl = FileSystems
                 .getDefault()
                 .getPath("src", "main", "resources")
@@ -46,21 +45,21 @@ public class EtiquetteService {
         renderer.setDocumentFromString(html, baseUrl);
         renderer.layout();
 
-        OutputStream outputStream = new FileOutputStream("etiquette.pdf");
+        OutputStream outputStream = new FileOutputStream(id + ".pdf");
         renderer.createPDF(outputStream);
 
         outputStream.close();
     }
 
-    private static String convertToXhtml(String html) throws UnsupportedEncodingException {
+    private static String convertToXhtml(String html)  {
         Tidy tidy = new Tidy();
         tidy.setInputEncoding("UTF-8");
         tidy.setOutputEncoding("UTF-8");
         tidy.setXHTML(true);
-        ByteArrayInputStream inputStream = new ByteArrayInputStream(html.getBytes("UTF-8"));
+        ByteArrayInputStream inputStream = new ByteArrayInputStream(html.getBytes(StandardCharsets.UTF_8));
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
         tidy.parseDOM(inputStream, outputStream);
-        return outputStream.toString("UTF-8");
+        return outputStream.toString(StandardCharsets.UTF_8);
     }
 
 

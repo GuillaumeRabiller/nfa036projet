@@ -160,7 +160,7 @@ public class StockController {
             dlc.truncatedTo(ChronoUnit.SECONDS);
             EtiquetteForm etiquette = new EtiquetteForm(stock.getId(), stock.getProduit().getNomProduit(), dateEntree, dlc );
             String templateHtml = EtiquetteService.parseEtiquetteTemplate(etiquette) ;
-            EtiquetteService.generatePdfFromHtml (templateHtml) ;
+            EtiquetteService.generatePdfFromHtml (templateHtml, stock.getId()) ;
         }
         //Retour à la liste en Stock
         model.addAttribute("stockList", stockService.listeStock());
