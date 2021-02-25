@@ -1,6 +1,5 @@
 package com.cnam.nfa036projet.controller;
 
-
 import com.cnam.nfa036projet.form.HistoriqueTemp;
 import com.cnam.nfa036projet.model.Frigo;
 import com.cnam.nfa036projet.model.ReleveTemp;
@@ -57,11 +56,10 @@ public class FrigoController {
      *
      * SAVE
      *
-     * A TEST
      */
 
     @RequestMapping(value = {"/saveFrigo"}, method = RequestMethod.POST)
-    public String saveFrigo(@ModelAttribute("aFrigo") Frigo aFrigo, BindingResult bindingResult, Model model) {
+    public String saveFrigo(@ModelAttribute("aFrigo") Frigo aFrigo, BindingResult bindingResult) {
         if (bindingResult.hasErrors() || aFrigo == null) {
             return "/error";
         } else {
@@ -85,7 +83,7 @@ public class FrigoController {
     }
 
     @PostMapping("/updateFrigo")
-    public String updateFrigo(@Valid Frigo aFrigo, BindingResult result, Model model) {
+    public String updateFrigo(@Valid Frigo aFrigo, BindingResult result) {
         if (result.hasErrors() || aFrigo == null) {
             return "/error";
         }

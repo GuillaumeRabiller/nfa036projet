@@ -46,9 +46,9 @@ public class TempController {
      */
 
     @RequestMapping(value = {"/saveTemp"}, method = RequestMethod.POST)
-    public String saveTemp(@ModelAttribute("aTemp") CreateTemp aTemp, BindingResult bindingResult, Model model)  {
-        if (bindingResult.hasErrors()) {
-            createTemp(model);
+    public String saveTemp(@ModelAttribute("aTemp") CreateTemp aTemp, BindingResult bindingResult)  {
+        if (bindingResult.hasErrors() || aTemp == null) {
+            return "/error";
         } else {
             ReleveTemp temp = new ReleveTemp();
             temp.setDateEnregTemp(LocalDateTime.now());

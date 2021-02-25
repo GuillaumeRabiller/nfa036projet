@@ -30,8 +30,7 @@ public class UtilisateurController {
      * LISTE DES UTILISATEURS EN BASE DE DONNEE
      *
      * READ
-     * <p>
-     * FONCTIONNEL
+     *
      */
 
     @GetMapping("/readUtil")
@@ -46,7 +45,6 @@ public class UtilisateurController {
      *
      * CREATE
      *
-     * FONCTIONNEL
      */
 
     @RequestMapping(value = {"/createUtil"}, method = RequestMethod.GET)
@@ -65,13 +63,15 @@ public class UtilisateurController {
      */
 
     @RequestMapping(value = {"/saveUtil"}, method = RequestMethod.POST)
-    public String saveUtilisateur(@ModelAttribute("aUser") Utilisateur aUser, BindingResult bindingResult, Model model) {
+    public String saveUtilisateur(@ModelAttribute("aUser") Utilisateur aUser, BindingResult bindingResult) {
         if (bindingResult.hasErrors() || aUser == null) {
             return "/error";
         } else {
+            //Encodage du mot de passe
             BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
             String hashedPassword = passwordEncoder.encode(aUser.getPassword());
             aUser.setPassword(hashedPassword);
+            //Sauvegarde
             utilisateurRepository.save(aUser);
             return "redirect:readUtil";
         }
@@ -82,7 +82,6 @@ public class UtilisateurController {
      *
      * UPDATE
      *
-     * FONCTIONNEL
      */
 
     @GetMapping("/updateUtil/{id}")
@@ -94,7 +93,7 @@ public class UtilisateurController {
     }
 
     @PostMapping("/updateUtil")
-    public String updateUtilisateur( @Valid UpdateUtilForm aUser, BindingResult result, Model model) {
+    public String updateUtilisateur( @Valid UpdateUtilForm aUser, BindingResult result) {
         if (result.hasErrors() || aUser == null) {
             return "/error";
         }
@@ -108,7 +107,6 @@ public class UtilisateurController {
      *
      * DELETE
      *
-     * FONCTIONNEL
      */
 
     @GetMapping("/verifDeleteUtil/{id}")

@@ -32,7 +32,7 @@ public class ProduitController {
      * LISTE DES PRODUITS EN BASE DE DONNEE
      *
      * READ
-     * <p>
+     *
      */
 
     @GetMapping("/readProduit")
@@ -67,7 +67,7 @@ public class ProduitController {
      */
 
     @RequestMapping(value = {"/saveProduit"}, method = RequestMethod.POST)
-    public String saveProduit(@ModelAttribute("aProduit") Produit aProduit, BindingResult bindingResult, Model model) {
+    public String saveProduit(@ModelAttribute("aProduit") Produit aProduit, BindingResult bindingResult) {
         if (bindingResult.hasErrors() || aProduit == null) {
             return "/error";
         } else {
@@ -95,7 +95,7 @@ public class ProduitController {
     }
 
     @PostMapping("/updateProduit")
-    public String updateProduit(@Valid UpdateProduitForm aProduit, BindingResult result, Model model) {
+    public String updateProduit(@Valid UpdateProduitForm aProduit, BindingResult result) {
         if (result.hasErrors() || aProduit == null) {
             return "/error";
         }

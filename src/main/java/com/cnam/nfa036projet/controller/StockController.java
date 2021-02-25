@@ -185,7 +185,7 @@ public class StockController {
     }
 
     @PostMapping("/updateStock")
-    public String updateStock(@Valid UpdateStockForm aStock, BindingResult result, Model model) {
+    public String updateStock(@Valid UpdateStockForm aStock, BindingResult result) {
         if (result.hasErrors() || aStock == null) {
             return "/error";
         }

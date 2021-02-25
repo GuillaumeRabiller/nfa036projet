@@ -23,7 +23,6 @@ public class CategorieController {
      *
      * READ
      *
-     *  FONCTIONNEL
      */
 
     @GetMapping("/readCategorie")
@@ -38,7 +37,6 @@ public class CategorieController {
      *
      * CREATE
      *
-     * FONCTIONNEL
      */
 
     @RequestMapping(value = {"/createCategorie"}, method = RequestMethod.GET)
@@ -53,11 +51,10 @@ public class CategorieController {
      *
      * SAVE
      *
-     * FONCTIONNEL
      */
 
     @RequestMapping(value = {"/saveCategorie"}, method = RequestMethod.POST)
-    public String saveCategorie(@ModelAttribute("aCategorie") Categorie aCategorie, BindingResult bindingResult, Model model) {
+    public String saveCategorie(@ModelAttribute("aCategorie") Categorie aCategorie, BindingResult bindingResult) {
         if (bindingResult.hasErrors() || aCategorie == null) {
             return "/error";
         } else {
@@ -71,7 +68,6 @@ public class CategorieController {
      *
      * UPDATE
      *
-     * FONCTIONNEL
      */
 
     @GetMapping("/updateCategorie/{id}")
@@ -82,7 +78,7 @@ public class CategorieController {
     }
 
     @PostMapping("/updateCategorie")
-    public String updateCategorie(@Valid Categorie aCategorie, BindingResult result, Model model) {
+    public String updateCategorie(@Valid Categorie aCategorie, BindingResult result) {
         if (result.hasErrors() || aCategorie == null) {
             return "/error";
         }
@@ -95,14 +91,13 @@ public class CategorieController {
      *
      * DELETE
      *
-     * FONCTIONNEL
      */
 
     @GetMapping("/verifDeleteCategorie/{id}")
     public String verifDeleteCategorie(@PathVariable("id") long id, Model model) {
         Categorie aCategorie = categorieRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Invalid categorie Id:" + id));
         boolean supr ;
-        //Vérification si la catégorie est allouée à certains produits
+        //Vérification si la catégorie est allouée à certains produits (donc suppression possible ou non)
         if(aCategorie.getProduits().isEmpty()){
             supr = true;
         } else {
