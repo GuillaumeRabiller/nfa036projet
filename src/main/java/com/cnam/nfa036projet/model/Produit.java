@@ -1,7 +1,6 @@
 package com.cnam.nfa036projet.model;
 
 import org.springframework.format.annotation.DateTimeFormat;
-
 import javax.persistence.*;
 import javax.validation.constraints.Size;
 import java.time.LocalDate;

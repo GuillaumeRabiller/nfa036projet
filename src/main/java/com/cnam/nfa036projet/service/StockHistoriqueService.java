@@ -4,7 +4,6 @@ import com.cnam.nfa036projet.form.HistoriqueForm;
 import com.cnam.nfa036projet.model.Produit;
 import com.cnam.nfa036projet.model.Statut;
 import com.cnam.nfa036projet.model.StockHistorique;
-import com.cnam.nfa036projet.repository.ProduitRepository;
 import com.cnam.nfa036projet.repository.StatutRepository;
 import com.cnam.nfa036projet.repository.StockHistoriqueRepository;
 import org.springframework.beans.factory.annotation.Autowired;

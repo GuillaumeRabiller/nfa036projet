@@ -1,6 +1,5 @@
 package com.cnam.nfa036projet.form;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 public class StockForm {

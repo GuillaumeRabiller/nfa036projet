@@ -1,12 +1,10 @@
 package com.cnam.nfa036projet.service;
 
-import com.cnam.nfa036projet.form.CreateStockForm;
 import com.cnam.nfa036projet.form.StockForm;
 import com.cnam.nfa036projet.model.Produit;
 import com.cnam.nfa036projet.model.Statut;
 import com.cnam.nfa036projet.model.Stock;
 import com.cnam.nfa036projet.model.StockHistorique;
-import com.cnam.nfa036projet.repository.ProduitRepository;
 import com.cnam.nfa036projet.repository.StatutRepository;
 import com.cnam.nfa036projet.repository.StockHistoriqueRepository;
 import com.cnam.nfa036projet.repository.StockRepository;
@@ -17,7 +15,6 @@ import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 
 @Service
@@ -32,9 +29,6 @@ public class StockService {
 
     @Autowired
     private StockHistoriqueRepository stockHistoriqueRepository ;
-
-    @Autowired
-    private ProduitRepository produitRepository ;
 
     @Autowired
     private UtilisateurService userService ;
