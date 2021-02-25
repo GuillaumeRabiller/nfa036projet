@@ -69,9 +69,10 @@
                 <br>
             </div>
             <div class="form-group">
-                <label class="form-label">role</label>
-                <input class="form-control" type="text" th:field="*{role}" />
-                <span class="error" th:if="${#fields.hasErrors('role')}">Erreur sur le role</span>
+                <select th:field="*{role}" class="form-select">
+                    <option th:value="'ROLE_UTILISATEUR'">Utilisateur</option>
+                    <option th:value="'ROLE_ADMIN'">Administrateur</option>
+                </select>
                 <br>
             </div>
                 <input type="submit" value="Submit" />
