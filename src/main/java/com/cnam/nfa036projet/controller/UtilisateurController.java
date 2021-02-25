@@ -5,6 +5,8 @@ import com.cnam.nfa036projet.model.Utilisateur;
 import com.cnam.nfa036projet.repository.UtilisateurRepository;
 import com.cnam.nfa036projet.service.UtilisateurService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -25,6 +27,9 @@ public class UtilisateurController {
 
     @Autowired
     private UtilisateurService utilisateurService;
+
+    @Autowired
+    private JavaMailSender emailSender ;
 
     /**
      * LISTE DES UTILISATEURS EN BASE DE DONNEE
@@ -68,11 +73,21 @@ public class UtilisateurController {
             return "/error";
         } else {
             //Encodage du mot de passe
+            String pass = aUser.getPassword() ;  // sauvegarde du password non encodé pour l'envoi en mail
             BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
             String hashedPassword = passwordEncoder.encode(aUser.getPassword());
             aUser.setPassword(hashedPassword);
             //Sauvegarde
             utilisateurRepository.save(aUser);
+
+            //Envoi du mail à l'utilisateur avec ses identifiants
+            SimpleMailMessage message = new SimpleMailMessage();
+            message.setTo(aUser.getEmail());
+            message.setSubject("Envoi de vos identifiants Logiciel Traçage Produits Restaurant");
+            message.setText("Bonjour, voici vos nouveaux identifiants de connexion : \n Login = " + aUser.getLogin() + "\n Mot de passe = " + pass
+            + "\n Vous serez connectez en tant que : " + aUser.getRole().toString());
+            this.emailSender.send(message);
+
             return "redirect:readUtil";
         }
     }

@@ -46,6 +46,9 @@
             <br>
             UTILISATEUR : darkvador , mdp : 456789 ; hansolo , mdp : wxcvbn
             <br>
+            <br>
+            Mail et mot de passe à renseigner dans Service/Constantes pour pouvoir gérer l'envoi de mails
+            <br>
         </p>
     </div>
 
@@ -125,6 +128,11 @@
                 <td>Spring Security</td>
                 <td>Framework de sécurité léger qui fournit une authentification et un support d'autorisation</td>
                 <td>5.3.1</td>
+            </tr>
+            <tr>
+                <td>Spring Email</td>
+                <td>Support d'envoi de mails pour Spring</td>
+                <td>2.4.3</td>
             </tr>
             <tr>
                 <td>Guava</td>
@@ -209,7 +217,7 @@
             </tr>
             <tr>
                 <td><span class="marge">Envoi par email</span></td>
-                <td><i class="fas fa-times"></i></td>
+                <td><i class="far fa-check-square"></i></td>
             </tr>
             <tr>
                 <td><span class="marge">Modification d'un utlisateur par ADMIN</span></td>
@@ -302,7 +310,7 @@
         <h3>Ce qui a été bien fait</h3>
         <br>
         <p>
-            Toute mon application fonctionne, les besoins clients sont remplis, le projet est bien structuré, avec des controleurs dédiés, des sous-dossiers pour chaque partie, des classes Service pour simplifier
+            Toute mon application fonctionne, les besoins clients sont tous remplis, le projet est bien structuré, avec des controleurs dédiés, des sous-dossiers pour chaque partie, des classes Service pour simplifier
             le code à certains endroits. <br>
             Les mécanismes de sécurité sont en place, avec l'authentification, des rôles dédiés qui modifient la partie Front <br>
             La partie Front me semble plutôt réussie, avec une ergonomie facilitant les besoins métiers. <br>
@@ -321,7 +329,6 @@
         <br>
         <p>
             Le code pourait être encore optimisé à certains endroits. <br>
-            L'envoi d'email n'a pas été mis en place. <br>
             Les erreurs envoient à une page dédiée, mais sans indication de ce qui a fait planté le logiciel. <br>
             Pas d'utilisation des tests unitaires. <br>
             Peu d'utilisation de JavaScript du fait d'une faible connaissance du langage, j'ai dû contourné par d'autres moyens, mais il aurait été intéressant d'approfondir mon apprentissage dessus.
